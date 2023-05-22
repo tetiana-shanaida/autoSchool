@@ -11,7 +11,7 @@
 
 
             int[,] nums = new int[n, m];
-            Console.WriteLine($"Enter items of row separated by a space");
+            Console.WriteLine($"test message");
             for (int i = 0; i < n; i++)
             {
                 string [] temp = Console.ReadLine().Split();
