@@ -1,4 +1,6 @@
-﻿namespace HW5Task2
+﻿// test
+
+namespace HW5Task2
 {
     internal class Program
     {
