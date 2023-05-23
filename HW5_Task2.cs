@@ -13,7 +13,9 @@ namespace HW5Task2
 
 
             int[,] nums = new int[n, m];
-            Console.WriteLine($"test message");
+
+
+            Console.WriteLine($"another test message");
             for (int i = 0; i < n; i++)
             {
                 string [] temp = Console.ReadLine().Split();
