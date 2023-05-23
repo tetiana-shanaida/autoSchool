@@ -1,4 +1,6 @@
-﻿namespace HW5Task2
+﻿// test
+
+namespace HW5Task2
 {
     internal class Program
     {
@@ -11,6 +13,8 @@
 
 
             int[,] nums = new int[n, m];
+
+
             Console.WriteLine($"another test message");
             for (int i = 0; i < n; i++)
             {
