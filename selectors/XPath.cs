@@ -5,14 +5,22 @@ namespace selectors
     public class XPath
     {
         string search = "//input[@title='Search']";
-        string testCases = "//li[@id='menu-item-224']/child::a";
+
+        string testCases = "//a[text()='Test Cases']";       
+        string TestCases = "//li[contains(@class, 'menu-item')]/a[text()='Test Cases']";
+
         string pullDownButton = "//a[@class='pull-down']";
-        string filter = "//button[@class='button']";
-        string javaScript = "//li[contains(@class, 'cat-item-21')]";
-        string android = "//li[contains(@class, 'product_tag-android')]/child::a[@class='woocommerce-LoopProduct-link']";
-        string twoHundredEighty =  "//li[contains(@class, 'post-181')]/descendant::span[contains(@class, 'woocommerce-Price-amount')]";
-        string sortByNewness = "//option[@value='date']";
+        string filter = "//button[text()='Filter']";
+
+        string javaScript = "//a[text()='JavaScript']";     
+        string JavaScript = "//li[contains(@class, 'cat-item')]/a[text()='JavaScript']";
+
+        string Android = "//h3[text()='Android Quick Start Guide']/parent::a";
+        string android = " //li[contains(@class, 'product_tag-android')]/descendant::h3[text()='Android Quick Start Guide']/..";       
+
+        string twoHundredEighty = " //h3[text()='HTML5 Forms']/following-sibling::span[contains(@class, 'price')]/span";
+        string sortByNewness = " //select[@class='orderby']/option[@value='date']";
         string email = "//input[@type='email']";
-        string twoThousandTwentyThree = "//div[@class='one']";
+        string twoThousandTwentyThree = " //div[@class='footer-text-inner']/div[@class='one']";
     }
 }

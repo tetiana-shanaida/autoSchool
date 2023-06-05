@@ -2,15 +2,15 @@
 
 public class ParameterizedXPath
 {
-    public string CategoryItemByName(string CategoryName) => $"//ul[@class='product-categories']/li[contains(@class, 'cat-item')]/a[text()='{CategoryName}']"
+    public string CategoryItemByName(string categoryName) => $"//li[contains(@class, 'cat-item')]/a[text()='{categoryName}']";
 
-    public string MenuItemByName(string MenuName) => $"//ul[@class='main-nav']/li[contains(@class, 'menu-item')]/a[text()='{MenuName}']"
+    public string MenuItemByName(string menuName) => $"//li[contains(@class, 'menu-item')]/a[text()='{menuName}']";
 
-    public string OrderByValue(string ItemValue) => $"//select[@class='orderby']/option[@value='{ItemValue}']"
+    public string OrderByValue(string itemValue) => $"//select[@class='orderby']/option[@value='{itemValue}']";
 
-    public string BookByTitle(string BookTitle) => $"//li[contains(@class, 'product type-product')]/descendant::h3[text()='{BookTitle}']/parent::a"
+    public string BookByTitle(string BookTitle) => $"//h3[text()='{BookTitle}']/parent::a";
 
-    public string ReadMore(string BookTitle) => $"//li[contains(@class, 'product type-product')]/descendant::h3[text()='{BookTitle}']/parent::a/following-sibling::a"
+    public string ReadMore(string bookTitle) => $"//h3[text()='{bookTitle}']//..//following-sibling::a[text()='Read more'";
 
-    public string SocialNetwork(string SocialNetworkName) => $"//li[contains(@class, 'social-link-item')]/a[@title='{SocialNetworkName}']/i"
+    public string SocialNetwork(string socialNetworkName) => $"/a[@title='{socialNetworkName}']/i";
 }
