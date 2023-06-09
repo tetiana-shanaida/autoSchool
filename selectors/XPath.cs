@@ -13,6 +13,6 @@ namespace selectors
         string twoHundredEighty = " //h3[text()='HTML5 Forms']/following-sibling::span[contains(@class, 'price')]/span";
         string sortByNewness = " //select[@class='orderby']/option[@value='date']";
         string email = "//input[@type='email']";
-        string twoThousandTwentyThree = " //div[@class='footer-text-inner']/div[@class='one']";
+        string twoThousandTwentyThree = " //div[@class='footer-text-inner']/div[@class='one']/text()[normalize-space()='2023']";
     }
 }
