@@ -21,11 +21,11 @@ namespace Selenium
             webDriver.Navigate().GoToUrl("https://www.saucedemo.com/");
         }
 
-        //[OneTimeTearDown]
-        //public void TearDown()
-        //{
-        //    webDriver.Close();
-        //}
+        [TearDown]
+        public void TearDown()
+        {
+            webDriver.Close();
+        }
 
         [Test]
         public void LogIn()
