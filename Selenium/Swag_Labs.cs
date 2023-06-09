@@ -61,6 +61,7 @@ namespace Selenium
         [Test]
         public void GoToItem()
         {
+            AddLabsBikeLightToCart();
             IWebElement item = webDriver.FindElement(By.XPath("//a[@id = 'item_5_title_link']"));
             item.Click();
         }
@@ -78,7 +79,6 @@ namespace Selenium
         [Test]
         public void Checkout()
         {
-            AddLabsBikeLightToCart();
             GoToItem();
             webDriver.FindElement(By.XPath("//button[@name='add-to-cart-sauce-labs-fleece-jacket']")).Click();
             webDriver.FindElement(By.XPath("//a[@class='shopping_cart_link']")).Click();
