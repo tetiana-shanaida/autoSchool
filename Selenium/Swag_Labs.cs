@@ -1,41 +1,43 @@
-﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System.Globalization;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.XPath;
+using SeleniumExtras.WaitHelpers;
 
 namespace Selenium
 {
     public class Swag_Labs
     {
         IWebDriver webDriver;
+        WebDriverWait wait;
 
         [OneTimeSetUp]
         public void SetUp()
         {
             webDriver = new OpenQA.Selenium.Chrome.ChromeDriver();
+            webDriver.Manage().Window.Maximize();
             webDriver.Navigate().GoToUrl("https://www.saucedemo.com/");
+            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
         }
 
         [OneTimeTearDown]
         public void TearDown()
         {
-            webDriver.Close();
+            webDriver.Quit();
         }
 
         [Test, Order(1)]
         public void LogIn()
         {
-            IWebElement user_name = webDriver.FindElement(By.XPath("//input[@id='user-name']"));
-            user_name.SendKeys("standard_user");
-            IWebElement password = webDriver.FindElement(By.XPath("//input[@id='password']"));
-            password.SendKeys("secret_sauce");
+            var UserNameInputField = webDriver.FindElement(By.XPath("//input[@id='user-name']"));
+            UserNameInputField.Clear();
+            UserNameInputField.SendKeys("standard_user");
+            var PasswordInputField = webDriver.FindElement(By.XPath("//input[@id='password']"));
+            PasswordInputField.Clear();
+            PasswordInputField.SendKeys("secret_sauce");
             webDriver.FindElement(By.XPath("//input[@id='login-button']")).Click();
+
+            wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='header_label']")));
             bool isDisplayedHeader = webDriver.FindElement(By.XPath("//div[@class='header_label']")).Displayed;
             Assert.IsTrue(isDisplayedHeader);
         }
@@ -48,9 +50,8 @@ namespace Selenium
             IReadOnlyList<IWebElement> prices = webDriver.FindElements(By.XPath("//div[@class='inventory_item_price']"));
             foreach (IWebElement price in prices)
             {
-                string strPrice = price.Text;
-                double dblPrice = double.Parse(strPrice.Substring(1), CultureInfo.InvariantCulture);
-                actualPrices.Add(dblPrice);
+                double ConvertedPrice = double.Parse(price.Text.Substring(1), CultureInfo.InvariantCulture);
+                actualPrices.Add(ConvertedPrice);
             }
             Assert.AreEqual(expectedPrices, actualPrices, $"{actualPrices} are not equal to {expectedPrices}");
         }
@@ -59,6 +60,7 @@ namespace Selenium
         public void AddLabsBikeLightToCart()
         {
             webDriver.FindElement(By.Id("add-to-cart-sauce-labs-bike-light")).Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@id = 'remove-sauce-labs-bike-light']")));
             bool isAddedToCart = webDriver.FindElement(By.XPath("//button[@id = 'remove-sauce-labs-bike-light']")).Displayed;
             Assert.IsTrue(isAddedToCart);
         }
@@ -66,9 +68,10 @@ namespace Selenium
         [Test, Order(4)]
         public void GoToSauceLabsFleeceJacket()
         {
-            webDriver.FindElement(By.XPath("//a[@id = 'item_5_title_link']")).Click(); //тут xpath можна було б по назві і взяти батьківський елемент або ось так по id, я подумала що по id зручніше і по назві тесту можна зрозуміти який саме продукт
-            bool goneToProduct = webDriver.FindElement(By.XPath("//div[@class='inventory_details_desc_container']/div[text()='Sauce Labs Fleece Jacket']")).Displayed;
-            Assert.IsTrue(goneToProduct);
+            webDriver.FindElement(By.XPath("//div[text()='Sauce Labs Fleece Jacket']/parent::a")).Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='inventory_details_desc_container']/div[text()='Sauce Labs Fleece Jacket']")));
+            bool isNavigatedToProductPage = webDriver.FindElement(By.XPath("//div[@class='inventory_details_desc_container']/div[text()='Sauce Labs Fleece Jacket']")).Displayed;
+            Assert.IsTrue(isNavigatedToProductPage);
         }
 
         [Test, Order(5)]
@@ -83,6 +86,7 @@ namespace Selenium
         public void AddSauceLabsFleeceJacketToCart()
         {
             webDriver.FindElement(By.XPath("//button[@name='add-to-cart-sauce-labs-fleece-jacket']")).Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@id = 'remove-sauce-labs-bike-light']")));
             bool productIsAdded = webDriver.FindElement(By.XPath("//button[@id='remove-sauce-labs-fleece-jacket']")).Displayed;
             Assert.IsTrue(productIsAdded);
         }
@@ -91,34 +95,49 @@ namespace Selenium
         public void GoToCart()
         {
             webDriver.FindElement(By.XPath("//a[@class='shopping_cart_link']")).Click();
-            bool goneToCart = webDriver.FindElement(By.XPath("//span[text()='Your Cart']")).Displayed;
-            Assert.IsTrue(goneToCart);
+            wait.Until(ExpectedConditions.ElementExists(By.XPath("//span[text()='Your Cart']")));
+            bool isNavigatedToCart = webDriver.FindElement(By.XPath("//span[text()='Your Cart']")).Displayed;
+            Assert.IsTrue(isNavigatedToCart);
         }
 
         [Test, Order(8)]
         public void GoToCheckout()
         {
             webDriver.FindElement(By.XPath("//button[@id='checkout']")).Click();
-            bool goneToCheckout = webDriver.FindElement(By.XPath("//span[contains(text(), 'Checkout')]")).Displayed;
-            Assert.IsTrue(goneToCheckout);
+            wait.Until(ExpectedConditions.ElementExists(By.XPath("//span[contains(text(), 'Checkout')]")));
+            bool isNavigatedToCheckout = webDriver.FindElement(By.XPath("//span[contains(text(), 'Checkout')]")).Displayed;
+            Assert.IsTrue(isNavigatedToCheckout);
         }
 
         [Test, Order(9)]
         public void FillCheckoutForm()
         {
-            webDriver.FindElement(By.XPath("//input[@id='first-name']")).SendKeys("Elia");
-            webDriver.FindElement(By.XPath("//input[@id='last-name']")).SendKeys("Solem");
-            webDriver.FindElement(By.XPath("//input[@id='postal-code']")).SendKeys("46000");
+            string InputFieldCheckoutForm(string fieldName) => $"//div[@class='form_group']/input[@name='{fieldName}']";
+
+            var FirstNameInputField = webDriver.FindElement(By.XPath(InputFieldCheckoutForm("firstName")));
+            FirstNameInputField.Clear();
+            FirstNameInputField.SendKeys("Elia");
+
+            var LastNameInputField = webDriver.FindElement(By.XPath(InputFieldCheckoutForm("lastName")));
+            LastNameInputField.Clear();
+            LastNameInputField.SendKeys("Solem");
+
+            var PostalCodeInputField = webDriver.FindElement(By.XPath(InputFieldCheckoutForm("postalCode")));
+            PostalCodeInputField.Clear();
+            PostalCodeInputField.SendKeys("46000");
             webDriver.FindElement(By.XPath("//input[@id='continue']")).Click();
-            bool goneToCheckoutOverviewPage = webDriver.FindElement(By.XPath("//span[text()='Checkout: Overview']")).Displayed;
-            Assert.IsTrue(goneToCheckoutOverviewPage);
+
+            wait.Until(ExpectedConditions.ElementExists(By.XPath("//span[text()='Checkout: Overview']")));
+            bool isNavigatedToCheckoutOverviewPage = webDriver.FindElement(By.XPath("//span[text()='Checkout: Overview']")).Displayed;
+            Assert.IsTrue(isNavigatedToCheckoutOverviewPage);
         }
 
         [Test, Order(10)]
         public void CheckProductsAmound()
         {
-            IReadOnlyList<IWebElement> items = webDriver.FindElements(By.XPath("//div[@class='cart_item']"));
-            Assert.AreEqual(2, items.Count);
+            int expectedProductsQuantity = 2;
+            IReadOnlyList<IWebElement> actualProductsQuantity = webDriver.FindElements(By.XPath("//div[@class='cart_item']"));
+            Assert.AreEqual(expectedProductsQuantity, actualProductsQuantity.Count, $"{actualProductsQuantity} is not equal to {expectedProductsQuantity}");
         }
 
         [Test, Order(11)]
