@@ -17,7 +17,7 @@ namespace Selenium
             webDriver = new OpenQA.Selenium.Chrome.ChromeDriver();
             webDriver.Manage().Window.Maximize();
             webDriver.Navigate().GoToUrl("https://www.saucedemo.com/");
-            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
+            wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
         }
 
         [OneTimeTearDown]
