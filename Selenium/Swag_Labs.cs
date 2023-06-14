@@ -11,6 +11,7 @@ namespace Selenium
         IWebDriver webDriver;
         WebDriverWait wait;
         DefaultWait<IWebDriver> fluentWait;
+        string ManageProductInCart(string manageId) => $"//button[@id = {manageId}]";
 
         [OneTimeSetUp]
         public void SetUp()
@@ -26,27 +27,23 @@ namespace Selenium
         [OneTimeTearDown]
         public void TearDown()
         {
-            try{ }
-            finally
-            {
-                webDriver.Quit();
-            }
+            webDriver?.Quit();
         }
 
         [Test, Order(1)]
         public void LogIn()
         {
-            string inputFieldLoginForm(string fieldId) => $"//input[@id='{fieldId}']";
+            string InputFieldLoginForm(string fieldId) => $"//input[@id='{fieldId}']";
 
-            var userNameInputField = webDriver.FindElement(By.XPath(inputFieldLoginForm("user - name")));
+            var userNameInputField = webDriver.FindElement(By.XPath(InputFieldLoginForm("user - name")));
             userNameInputField.Clear();
             userNameInputField.SendKeys("standard_user");
 
-            var PasswordInputField = webDriver.FindElement(By.XPath(inputFieldLoginForm("password")));
+            var PasswordInputField = webDriver.FindElement(By.XPath(InputFieldLoginForm("password")));
             PasswordInputField.Clear();
             PasswordInputField.SendKeys("secret_sauce");
 
-            webDriver.FindElement(By.XPath(inputFieldLoginForm("login-button"))).Click();
+            webDriver.FindElement(By.XPath(InputFieldLoginForm("login-button"))).Click();
 
             wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='header_label']")));
             bool isDisplayedHeader = webDriver.FindElement(By.XPath("//div[@class='header_label']")).Displayed;
@@ -70,11 +67,9 @@ namespace Selenium
         [Test, Order(3)]
         public void AddLabsBikeLightToCart()
         {
-            string manageProductInCart(string manageId) => $"//button[@id = {manageId}]";
-
-            webDriver.FindElement(By.XPath(manageProductInCart("add-to-cart-sauce-labs-bike-light"))).Click();
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(manageProductInCart("remove-sauce-labs-bike-light"))));
-            bool isAddedToCart = webDriver.FindElement(By.XPath(manageProductInCart("remove-sauce-labs-bike-light"))).Displayed;
+            webDriver.FindElement(By.XPath(ManageProductInCart("add-to-cart-sauce-labs-bike-light"))).Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ManageProductInCart("remove-sauce-labs-bike-light"))));
+            bool isAddedToCart = webDriver.FindElement(By.XPath(ManageProductInCart("remove-sauce-labs-bike-light"))).Displayed;
             Assert.IsTrue(isAddedToCart);
         }
 
@@ -98,11 +93,9 @@ namespace Selenium
         [Test, Order(6)]
         public void AddSauceLabsFleeceJacketToCart()
         {
-            string manageProductInCart(string manageId) => $"//button[@id = {manageId}]";
-
-            webDriver.FindElement(By.XPath(manageProductInCart("add-to-cart-sauce-labs-fleece-jacket"))).Click();
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(manageProductInCart("remove-sauce-labs-bike-light"))));
-            bool productIsAdded = webDriver.FindElement(By.XPath(manageProductInCart("remove-sauce-labs-fleece-jacket"))).Displayed;
+            webDriver.FindElement(By.XPath(ManageProductInCart("add-to-cart-sauce-labs-fleece-jacket"))).Click();
+            IWebElement product = wait.Until(e => e.FindElement(By.XPath(ManageProductInCart("remove-sauce-labs-fleece-jacket"))));
+            bool productIsAdded = product.Displayed;
             Assert.IsTrue(productIsAdded);
         }
 
