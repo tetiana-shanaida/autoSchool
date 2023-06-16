@@ -3,6 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.DevTools.V112.Overlay;
 
 namespace Page_Objects.Tests
 {
@@ -12,6 +13,7 @@ namespace Page_Objects.Tests
         LoginForm loginForm;
         RegisterForm registerForm;
         WebDriverWait wait;
+        Asserts asserts;
 
         [SetUp]
         public void SetUp()
@@ -19,6 +21,7 @@ namespace Page_Objects.Tests
             webDriver = new ChromeDriver();
             loginForm = new LoginForm(webDriver);
             registerForm = new RegisterForm(webDriver);
+            asserts = new Asserts(webDriver);
             wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
             webDriver.Manage().Window.Maximize();
             webDriver.Navigate().GoToUrl("https://practice.automationtesting.in/my-account/");
@@ -36,8 +39,7 @@ namespace Page_Objects.Tests
             string username = "user2563";
             loginForm.Login(username, "0y4F8S^D7W4c");
 
-            IWebElement accountDetailsButton = wait.Until(e => e.FindElement(By.XPath("//a[text()='Account Details']")));
-            Assert.IsTrue(accountDetailsButton.Displayed);
+            asserts.IsElementDispayed(By.XPath("//a[text()='Account Details']"));
         }
 
         [Test]
