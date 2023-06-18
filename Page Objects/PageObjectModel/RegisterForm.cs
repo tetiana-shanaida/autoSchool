@@ -10,19 +10,19 @@ namespace Page_Objects.PageObjectModel
             this.webDriver = webDriver;
         }
 
-        public string RegisterFormInputFieldByID (string id) => $"//input[@id='{id}']";
-        public string FieldTitleByFor(string forAttribute) => $"//label[@for='{forAttribute}']";
+        private string RegisterFormInputFieldByID (string id) => $"//input[@id='{id}']";
+        private string FieldTitleByFor(string forAttribute) => $"//label[@for='{forAttribute}']";
 
-        public IWebElement RegisterTitle => webDriver.FindElement(By.XPath("//h2[text()='Register']"));
-        public IWebElement EmailInputField => webDriver.FindElement(By.XPath(RegisterFormInputFieldByID("reg_email")));
-        public IWebElement EmailFieldTitle => webDriver.FindElement(By.XPath(FieldTitleByFor("reg_email")));
-        public IWebElement PasswordInputField => webDriver.FindElement(By.XPath(RegisterFormInputFieldByID("reg_password")));
-        public IWebElement PasswordFieldTitle => webDriver.FindElement(By.XPath(FieldTitleByFor("reg_password")));
-        public IWebElement RegisterButton => webDriver.FindElement(By.XPath("//input[@name='register']"));
+        private string RegisterTitle = "//h2[text()='Register']";
+        private string EmailInputField => RegisterFormInputFieldByID("reg_email");
+        private string EmailFieldTitle => FieldTitleByFor("reg_email");
+        private string PasswordInputField => RegisterFormInputFieldByID("reg_password");
+        private string PasswordFieldTitle => FieldTitleByFor("reg_password");
+        private string RegisterButton = "//input[@name='register']";
 
         public string GetTextFromRegisterButton()
         {
-            return GetElementAttribute(By.XPath("//input[@name='register']"), "value");
+            return GetElementAttribute(By.XPath(RegisterButton), "value");
         }
     }
 }

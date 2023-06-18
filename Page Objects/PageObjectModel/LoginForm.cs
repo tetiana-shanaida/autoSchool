@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace Page_Objects.PageObjectModel
 {
@@ -11,39 +10,39 @@ namespace Page_Objects.PageObjectModel
         {
             this.webDriver = webDriver;
         }
-        public string LoginFormInputFieldByID(string id) => $"//input[@id='{id}']";
-        public string FieldTitleByFor(string forAttribute) => $"//label[@for='{forAttribute}']";
+        private string LoginFormInputFieldByID(string id) => $"//input[@id='{id}']";
+        private string FieldTitleByFor(string forAttribute) => $"//label[@for='{forAttribute}']";
 
-        public IWebElement LoginTitle => FindElement(By.XPath("//h2[text()='Login']"));
-        public IWebElement UsernameInputField => FindElement(By.XPath(LoginFormInputFieldByID("username")));
-        public IWebElement UsernameFieldTitle => FindElement(By.XPath(FieldTitleByFor("username")));
-        public IWebElement PasswordInputField => FindElement(By.XPath(LoginFormInputFieldByID("password")));
-        public IWebElement PasswordFieldTitle => FindElement(By.XPath(FieldTitleByFor("password")));
+        private string LoginTitle = "//h2[text()='Login']";
+        private string UsernameInputField => LoginFormInputFieldByID("username");
+        private string UsernameFieldTitle => FieldTitleByFor("username");
+        private string PasswordInputField => LoginFormInputFieldByID("password");
+        private string PasswordFieldTitle => FieldTitleByFor("password");
 
-        public IWebElement LoginButton => FindElement(By.XPath("//input[@name='login']"));
-        public IWebElement RememberMeCheckbox => FindElement(By.XPath(FieldTitleByFor("rememberme")));
-        public IWebElement LostPasswordLink => FindElement(By.XPath("//a[contains(@href, '/lost-password/')]"));
+        private string LoginButton = "//input[@name='login']";
+        private string RememberMeCheckbox => FieldTitleByFor("rememberme");
+        private string LostPasswordLink = "//a[contains(@href, '/lost-password/')]";
 
 
         public string GetTextFromLostPassword()
         {
-            return LostPasswordLink.Text;
+            return FindElement(By.XPath(LostPasswordLink)).Text;
         }
 
         public string GetTextFromRememberMe() 
         {
-            return RememberMeCheckbox.Text;
+            return FindElement(By.XPath(RememberMeCheckbox)).Text;
         }
 
         public void Login(string usernameOrEmail, string password)
         {
-            UsernameInputField.Clear();
-            UsernameInputField.SendKeys(usernameOrEmail);
+            FindElement(By.XPath(UsernameInputField)).Clear();
+            FillInputField(By.XPath(UsernameInputField), usernameOrEmail);
 
-            PasswordInputField.Clear();
-            PasswordInputField.SendKeys(password);
+            FindElement(By.XPath(PasswordInputField)).Clear();
+            FillInputField(By.XPath(PasswordInputField), password);
 
-            LoginButton.Click();
+            Click(By.XPath(LoginButton));
         }
     }
 }

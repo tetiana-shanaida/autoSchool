@@ -3,7 +3,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.DevTools.V112.Overlay;
 
 namespace Page_Objects.Tests
 {
@@ -37,9 +36,12 @@ namespace Page_Objects.Tests
         public void Login()
         {
             string username = "user2563";
-            loginForm.Login(username, "0y4F8S^D7W4c");
+            string password = "0y4F8S^D7W4c";
+            loginForm.Login(username, password);
 
-            asserts.IsElementDispayed(By.XPath("//a[text()='Account Details']"));
+            string accountDetailsButton = "//a[text()='Account Details']";
+            wait.Until(e => e.FindElement(By.XPath(accountDetailsButton)));
+            asserts.IsElementDispayed(By.XPath(accountDetailsButton));
         }
 
         [Test]
@@ -47,7 +49,7 @@ namespace Page_Objects.Tests
         {
             string expectedText = "Lost your password?";
             string actualText = loginForm.GetTextFromLostPassword();
-            Assert.AreEqual(expectedText, actualText, $"{actualText} isn't equal to {expectedText}");
+            asserts.AreEqual(expectedText, actualText);
         }
 
         [Test]
@@ -55,7 +57,7 @@ namespace Page_Objects.Tests
         {
             string expectedText = "Remember me";
             string actualText = loginForm.GetTextFromRememberMe();
-            Assert.AreEqual(expectedText, actualText, $"{actualText} isn't equal to {expectedText}");
+            asserts.AreEqual(expectedText, actualText);
         }
 
         [Test]
@@ -63,7 +65,7 @@ namespace Page_Objects.Tests
         {
             string expectedText = "Register";
             string actualText = registerForm.GetTextFromRegisterButton();
-            Assert.AreEqual(expectedText, actualText, $"{actualText} isn't equal to {expectedText}");
+            asserts.AreEqual(expectedText, actualText);
         }
     }
 }
