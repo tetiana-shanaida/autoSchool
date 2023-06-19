@@ -22,7 +22,7 @@ namespace Page_Objects.PageObjectModel
 
         public string GetTextFromRegisterButton()
         {
-            return GetElementAttribute(By.XPath(RegisterButton), "value");
+            return GetElementAttribute(RegisterButton, "value");
         }
     }
 }

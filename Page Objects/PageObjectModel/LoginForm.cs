@@ -26,23 +26,22 @@ namespace Page_Objects.PageObjectModel
 
         public string GetTextFromLostPassword()
         {
-            return FindElement(By.XPath(LostPasswordLink)).Text;
+            return GetElementText(LostPasswordLink);
         }
 
         public string GetTextFromRememberMe() 
         {
-            return FindElement(By.XPath(RememberMeCheckbox)).Text;
+            return GetElementText(RememberMeCheckbox);
         }
 
-        public void Login(string usernameOrEmail, string password)
+        public LoginForm Login(string usernameOrEmail, string password)
         {
-            FindElement(By.XPath(UsernameInputField)).Clear();
-            FillInputField(By.XPath(UsernameInputField), usernameOrEmail);
+            FillInputField(UsernameInputField, usernameOrEmail);
+            FillInputField(PasswordInputField, password);
 
-            FindElement(By.XPath(PasswordInputField)).Clear();
-            FillInputField(By.XPath(PasswordInputField), password);
+            Click(LoginButton);
 
-            Click(By.XPath(LoginButton));
+            return this;
         }
     }
 }

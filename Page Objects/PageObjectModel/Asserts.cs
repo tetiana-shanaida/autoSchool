@@ -12,7 +12,7 @@ namespace Page_Objects.PageObjectModel
             this.webDriver = webDriver;
         }
 
-        public Asserts IsElementDispayed(By locator) 
+        public Asserts IsElementDispayed(string locator) 
         {
             IWebElement element = FindElement(locator);
             Assert.IsTrue(element.Displayed);
