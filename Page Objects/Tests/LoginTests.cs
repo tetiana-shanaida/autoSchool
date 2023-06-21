@@ -11,20 +11,20 @@ namespace Page_Objects.Tests
         private IWebDriver webDriver;
         private LoginForm loginForm;
         private RegisterForm registerForm;
-        private WebDriverWait wait;
         private Asserts asserts;
-        private BaseClass baseClass;
+        DriverFactory factory;
         private string url = "https://practice.automationtesting.in/my-account/";
 
         [SetUp]
         public void SetUp()
         {
-            webDriver = new ChromeDriver();
+            factory = new DriverFactory();
+            factory.InitializeDriver("Chrome");
+            webDriver = factory.webDriver;
+            factory.NavigateTo(url);
             loginForm = new LoginForm(webDriver);
             registerForm = new RegisterForm(webDriver);
             asserts = new Asserts(webDriver);
-            baseClass = new BaseClass(webDriver);
-            wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
             webDriver.Manage().Window.Maximize();
             webDriver.Navigate().GoToUrl(url);
         }
@@ -32,7 +32,7 @@ namespace Page_Objects.Tests
         [TearDown]
         public void TearDown()
         {
-            webDriver?.Quit();
+            factory.CloseDriver();
         }
 
         [Test]
@@ -43,7 +43,6 @@ namespace Page_Objects.Tests
             loginForm.Login(username, password);
 
             string accountDetailsButton = "//a[text()='Account Details']";
-            wait.Until(e => e.FindElement(By.XPath(accountDetailsButton)));
             asserts.IsElementDispayed(accountDetailsButton);
         }
 

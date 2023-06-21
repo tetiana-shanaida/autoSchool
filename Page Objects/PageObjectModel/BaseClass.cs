@@ -21,20 +21,17 @@ namespace Page_Objects.PageObjectModel
             return element;
         }
 
-        public BaseClass Click(string locator)
+        public void Click(string locator)
         {
             wait.Until(e => e.FindElement(By.XPath(locator)));
             FindElement(locator).Click();
-            return this;
         }
 
-        public BaseClass FillInputField(string locator, string text)
+        public void FillInputField(string locator, string text)
         {
             var element = wait.Until(e => e.FindElement(By.XPath(locator)));
             element.Clear();
             element.SendKeys(text);
-
-            return this;
         }
 
         public string GetElementAttribute(string locator, string attribute)
