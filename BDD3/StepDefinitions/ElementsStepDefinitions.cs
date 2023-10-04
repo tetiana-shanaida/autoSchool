@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using NUnit.Framework;
+using System.Diagnostics.SymbolStore;
 
 namespace BDD3.StepDefinitions
 {
@@ -15,6 +16,7 @@ namespace BDD3.StepDefinitions
 
         private TextBox textBox => new TextBox(webDriver);
         private CheckBox checkBox => new CheckBox(webDriver);
+        private WebTables webTables => new WebTables(webDriver);
 
         [Given(@"open the browser")]
         public void GivenOpenTheBrowser()
@@ -94,8 +96,49 @@ namespace BDD3.StepDefinitions
         [Then(@"user see text You have selected : desktop notes commands angular veu office public private classified general downloads wordFile excelFile")]
         public void ThenUserSeeTextYouHaveSelectedDesktopNotesCommandsAngularVeuOfficePublicPrivateClassifiedGeneralDownloadsWordFileExcelFile()
         {
+            checkBox.ActualText();
             Assert.AreEqual(checkBox.expectedText, checkBox.actualText, $"expected isn't equal to actual");
         }
+
+
+        [Given(@"user is on WebTables page")]
+        public void GivenUserIsOnWebTablesPage()
+        {
+            webTables.GoToWebTablesSection();
+        }
+
+        [When(@"user clicks on Salary column")]
+        public void WhenUserClicksOnSalaryColumn()
+        {
+            webTables.CheckSalaryOrdering();
+        }
+
+        [Then(@"the values in the Salary column are sorted in ascending order")]
+        public void ThenTheValuesInTheSalaryColumnAreSortedInAscendingOrder()
+        {
+            
+        }
+
+        [When(@"user delete second line\(name is Alden\)")]
+        public void WhenUserDeleteSecondLineNameIsAlden()
+        {
+            webTables.DeleteAlden();
+        }
+
+        [Then(@"there are only two rows left in the table")]
+        public void ThenThereAreOnlyTwoRowsLeftInTheTable()
+        {
+            int actualRows = webTables.CountRows();
+            int expectedRows = 2;
+            Assert.AreEqual(expectedRows, actualRows, $"{actualRows} isn't equal to {expectedRows}");
+        }
+
+        [Then(@"the values in the Department column do not contain the value Compliance")]
+        public void ThenTheValuesInTheDepartmentColumnDoNotContainTheValueCompliance()
+        {
+            Assert.IsTrue(webTables.IfComplianceDepartmentIsntPresent());
+        }
+
 
 
         [AfterScenario]

@@ -11,7 +11,6 @@ namespace BDD3.PageObject.Elements
         public CheckBox(IWebDriver webDriver) : base(webDriver)
         {
             this.webDriver = webDriver;
-            this.webDriver = new ChromeDriver();
         }
 
         private string ElementCategory => CategoryByName("Elements");
@@ -86,7 +85,7 @@ namespace BDD3.PageObject.Elements
             return this;
         }
 
-        public string ExpectedText()
+        public string ActualText()
         {
             List<string> actualTextList = new List<string>();
             IList<IWebElement> elements = webDriver.FindElements(By.XPath("//div[@id='result']/span"));
@@ -96,7 +95,7 @@ namespace BDD3.PageObject.Elements
                 actualTextList.Add(element.Text);
             }
 
-            actualText = Convert.ToString(actualTextList);
+            actualText = string.Join(" ", actualTextList);
             return actualText;
         }
     }
