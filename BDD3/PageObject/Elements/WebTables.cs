@@ -12,10 +12,9 @@ namespace BDD3.PageObject.Elements
         {
             this.webDriver = webDriver;
         }
-        private string ElementCategory => CategoryByName("Elements");
         private string WebTablesSection => SectionByName("Web Tables");
 
-        private string Salary = "//div[text()='Salary']//parent::div[@role=\"columnheader\"]";
+        private string ColumnName(string columnName) => $"//div[text()='{columnName}']//parent::div[@role=\"columnheader\"]";
         private string SelectorDeleteAlden = "//span[@id='delete-record-2']";
 
         public WebTables GoToWebTablesSection()
@@ -25,9 +24,10 @@ namespace BDD3.PageObject.Elements
             return this;
         }
 
-        public WebTables CheckSalaryOrdering()
+        public WebTables OrderBy(string columnName)
         {
-            Click(Salary); return this;
+            Click(ColumnName(columnName)); 
+            return this;
         }
 
         public WebTables DeleteAlden()
@@ -45,19 +45,19 @@ namespace BDD3.PageObject.Elements
             return count;
         }
 
-        public bool IfComplianceDepartmentIsntPresent()
+        public bool IfDepartmentValueIsntPresent(string value)
         {
             IList<IWebElement> departmentElements = webDriver.FindElements(By.XPath("//div[contains(@class, 'rt-tr')]/div[6]"));
-            bool isComplianceIsntPresent = true;
+            bool isDepartmentValueIsntPresent = true;
             foreach (IWebElement element in departmentElements)
             {
-                if (element.Text.Contains("Compliance"))
+                if (element.Text.Contains(value))
                 {
-                    isComplianceIsntPresent = false;
+                    isDepartmentValueIsntPresent = false;
                     break;
                 }
             }
-            return isComplianceIsntPresent;
+            return isDepartmentValueIsntPresent;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace BDD3.PageObject
             wait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(10));
         }
 
-        protected string CategoryByName (string name) => $"//h5[text()='{name}']//ancestor::div[contains(@class, 'card')]";
+        protected string CategoryByName (string name) => $"//h5[text()='{name}']//parent::div[@class='card-body']";
         protected string SectionByName(string name) => $"//span[text()='{name}']//ancestor::li";
 
         public IWebElement FindElement(string locator)

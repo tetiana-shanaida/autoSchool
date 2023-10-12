@@ -1,6 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System.Xml.Linq;
 
 namespace BDD3.PageObject.Elements
 {
@@ -13,76 +11,27 @@ namespace BDD3.PageObject.Elements
             this.webDriver = webDriver;
         }
 
-        private string ElementCategory => CategoryByName("Elements");
-        private string CheckBoxSection => SectionByName("Check Box");
-
-        private string ExpandFolderByForAttribute(string forAttribute) => $"//label[@for='{forAttribute}']//preceding-sibling::button[@title='Toggle']";
-        private string SelectCheckboxByForAttribute(string forAttribute) => $"//label[@for='{forAttribute}']//span[@class='rct-checkbox']";
-
-        private string SelectorToExpandHomeFolder => ExpandFolderByForAttribute("tree-node-home");
-        private string ExpandDocumentFolder => ExpandFolderByForAttribute("tree-node-documents");
-        private string ExpandWorkspaceFolder => ExpandFolderByForAttribute("tree-node-workspace");
-        private string SelectorToExpandOfficeFolder => ExpandFolderByForAttribute("tree-node-office");
-        private string ExpandDownloadsFolder => ExpandFolderByForAttribute("tree-node-downloads");
-        private string SelectorToSelectDesktop => SelectCheckboxByForAttribute("tree-node-desktop");
-        private string SelectAngular => SelectCheckboxByForAttribute("tree-node-angular");
-        private string SelectVeu => SelectCheckboxByForAttribute("tree-node-veu");
-        private string SelectPublic => SelectCheckboxByForAttribute("tree-node-public");
-        private string SelectPrivate => SelectCheckboxByForAttribute("tree-node-private");
-        private string SelectClassified => SelectCheckboxByForAttribute("tree-node-classified");
-        private string SelectGeneral => SelectCheckboxByForAttribute("tree-node-general");
-        private string SelectDownloads => SelectCheckboxByForAttribute("tree-node-downloads");
-
-        public string expectedText = "You have selected : desktop notes commands angular veu office public private classified general downloads wordFile excelFile";
-        public string actualText;
+        private string ExpandFolderByName(string name) => $"//label[@for='tree-node-{name}']//preceding-sibling::button[@title='Toggle']";
+        private string SelectFolderOrItemByName(string name) => $"//label[@for='tree-node-{name}']//span[@class='rct-checkbox']";
 
         public CheckBox GoToCheckBoxSection()
         {
-            Click(CheckBoxSection);
+            Click(SectionByName("Check Box"));
 
             return this;
         }
 
-        public CheckBox ExpandHomeFolder()
+        public CheckBox ExpandFolder(string folderName)
         {
-            Click(SelectorToExpandHomeFolder);
+            Click(ExpandFolderByName(folderName));
             return this;
         }
 
-        public CheckBox SelectDesktop() 
-        { 
-            Click(SelectorToSelectDesktop); 
+        public CheckBox SelectFolderOrItem(string folderName) 
+        {
+            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(SelectFolderOrItemByName(folderName)));
+            Click(SelectFolderOrItemByName(folderName)); 
             return this; 
-        }
-
-        public CheckBox SelectAngularAndVeu()
-        {
-            Click(ExpandDocumentFolder);
-            Click(ExpandWorkspaceFolder);
-            Click(SelectAngular);
-            Click(SelectVeu);
-
-            return this;
-        }
-
-        public CheckBox ExpandOfficeFolder()
-        {
-            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(SelectorToExpandOfficeFolder));
-            Click(SelectorToExpandOfficeFolder);
-            Click(SelectPublic);
-            Click(SelectPrivate);
-            Click(SelectClassified);
-            Click(SelectGeneral);
-
-            return this;
-        }
-
-        public CheckBox DownloadFolder()
-        {
-            Click(ExpandDownloadsFolder);
-            Click(SelectDownloads);
-
-            return this;
         }
 
         public string ActualText()
@@ -95,8 +44,7 @@ namespace BDD3.PageObject.Elements
                 actualTextList.Add(element.Text);
             }
 
-            actualText = string.Join(" ", actualTextList);
-            return actualText;
+            return string.Join(" ", actualTextList);
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using BDD3.PageObject.Elements;
-using BDD3.PageObject;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using NUnit.Framework;
-using System.Diagnostics.SymbolStore;
+using System.Net;
 
 namespace BDD3.StepDefinitions
 {
@@ -17,6 +15,14 @@ namespace BDD3.StepDefinitions
         private TextBox textBox => new TextBox(webDriver);
         private CheckBox checkBox => new CheckBox(webDriver);
         private WebTables webTables => new WebTables(webDriver);
+        private Buttons buttons => new Buttons(webDriver);
+
+        private readonly ScenarioContext _scenarioContext;
+
+        public ElementsStepDefinitions(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
 
         [Given(@"open the browser")]
         public void GivenOpenTheBrowser()
@@ -25,120 +31,132 @@ namespace BDD3.StepDefinitions
             webDriver.Manage().Window.Maximize();
         }
 
-
-        [Given(@"user is on main page")]
-        public void GivenUserIsOnMainPage()
+        [Given(@"user is on the main page")]
+        public void GivenUserIsOnTheMainPage()
         {
             webDriver.Navigate().GoToUrl(url);
         }
 
-        [When(@"user cliks on element category")]
-        public void WhenUserCliksOnElementCategory()
+        [When(@"user opens the element category")]
+        public void WhenUserOpensTheElementCategory()
         {
-            textBox.GoToElementSection();   
+            textBox.GoToElementSection();
         }
 
-        [When(@"user clicks on text box section")]
-        public void WhenUserClicksOnTextBoxSection()
+        [When(@"user goes to text box section")]
+        public void WhenUserGoesToTextBoxSection()
         {
             textBox.GoToTextBox();
         }
 
-        [When(@"user enters data")]
-        public void WhenUserEntersData()
+        [When(@"user enters personal data: ""([^""]*)"", ""([^""]*)"", ""([^""]*)"", ""([^""]*)"" in form")]
+        public void WhenUserEntersPersonalDataInForm(string name, string email, string currentAddress, string permanentAddress)
         {
-            textBox.FillInForm("Tania", "tanya@gmail.com", "Ternopil", "Odessa");
+            textBox.FillInForm(name, email, currentAddress, permanentAddress);
+
+            string[] expectedData = { name, email, currentAddress, permanentAddress};
+            _scenarioContext["ExpectedData"] = expectedData;
+
         }
 
-        [Then(@"entered data are displayed in appeared table")]
-        public void ThenEnteredDataAreDisplayedInAppearedTable()
+        [When(@"user submits form")]
+        public void WhenUserSubmitsForm()
         {
-            textBox.GetActualData();
-            Assert.AreEqual(textBox.expectedData, textBox.actualData, $"actual isn't equal to expected");
+            textBox.Submit();
         }
 
-        [When(@"user clicks on check box section")]
-        public void WhenUserClicksOnCheckBoxSection()
+        [Then(@"entered data are displayed in the appeared table")]
+        public void ThenEnteredDataAreDisplayedInTheAppearedTable()
+        {
+            List<string> actualData = textBox.GetActualData();
+            var expectedData = _scenarioContext["ExpectedData"] as List<string>;
+            Assert.AreEqual(expectedData, actualData, $"actual isn't equal to expected");
+        }
+
+
+        [When(@"user goes to check box section")]
+        public void WhenUserGoesToCheckBoxSection()
         {
             checkBox.GoToCheckBoxSection();
         }
 
-        [When(@"user expand home folder")]
-        public void WhenUserExpandHomeFolder()
-        {
-            checkBox.ExpandHomeFolder();
+        [When(@"user expands ""([^""]*)"" folder")]
+        public void WhenUserExpandsFolder(string folderName)
+        { 
+            checkBox.ExpandFolder(folderName);
         }
 
-        [When(@"user select Desktop folder")]
-        public void WhenUserSelectDesktopFolder()
+        [When(@"user selects ""([^""]*)"" folder")]
+        public void WhenUserSelectsFolder(string folderName)
         {
-            checkBox.SelectDesktop();
+            checkBox.SelectFolderOrItem(folderName);
         }
 
-        [When(@"user select Angular and Veu from WorkSpace folder")]
-        public void WhenUserSelectAngularAndVeuFromWorkSpaceFolder()
+        [Then(@"user see text: ""([^""]*)""")]
+        public void ThenUserSeeText(string expectedText)
         {
-            checkBox.SelectAngularAndVeu();
-        }
-
-        [When(@"user expandOffice folder and clicks on each element in folder")]
-        public void WhenUserExpandOfficeFolderAndClicksOnEachElementInFolder()
-        {
-            checkBox.ExpandOfficeFolder();
-        }
-
-        [When(@"user expand Downloads folder and select it")]
-        public void WhenUserExpandDownloadsFolderAndSelectIt()
-        {
-            checkBox.DownloadFolder();
-        }
-
-        [Then(@"user see text You have selected : desktop notes commands angular veu office public private classified general downloads wordFile excelFile")]
-        public void ThenUserSeeTextYouHaveSelectedDesktopNotesCommandsAngularVeuOfficePublicPrivateClassifiedGeneralDownloadsWordFileExcelFile()
-        {
-            checkBox.ActualText();
-            Assert.AreEqual(checkBox.expectedText, checkBox.actualText, $"expected isn't equal to actual");
+            string actualText = checkBox.ActualText();
+            Assert.AreEqual(expectedText, actualText, $"expected isn't equal to actual");
         }
 
 
-        [Given(@"user is on WebTables page")]
-        public void GivenUserIsOnWebTablesPage()
+        [Given(@"user is on the WebTables page")]
+        public void GivenUserIsOnTheWebTablesPage()
         {
             webTables.GoToWebTablesSection();
         }
 
-        [When(@"user clicks on Salary column")]
-        public void WhenUserClicksOnSalaryColumn()
+        [When(@"user clicks on ""([^""]*)"" column")]
+        public void WhenUserClicksOnColumn(string columnName)
         {
-            webTables.CheckSalaryOrdering();
+            webTables.OrderBy(columnName);
         }
 
-        [Then(@"the values in the Salary column are sorted in ascending order")]
-        public void ThenTheValuesInTheSalaryColumnAreSortedInAscendingOrder()
+        [Then(@"the values in the ""([^""]*)"" column are sorted in ""([^""]*)"" order")]
+        public void ThenTheValuesInTheColumnAreSortedInOrder(string salary, string ascending)
         {
-            
+
         }
 
-        [When(@"user delete second line\(name is Alden\)")]
-        public void WhenUserDeleteSecondLineNameIsAlden()
+        [When(@"user deletes ""([^""]*)"" line")]
+        public void WhenUserDeletesLine(string alden)
         {
             webTables.DeleteAlden();
         }
 
-        [Then(@"there are only two rows left in the table")]
-        public void ThenThereAreOnlyTwoRowsLeftInTheTable()
+        [Then(@"there are only ""([^""]*)"" rows left in the table")]
+        public void ThenThereAreOnlyRowsLeftInTheTable(int amount)
         {
             int actualRows = webTables.CountRows();
-            int expectedRows = 2;
+            int expectedRows = amount;
             Assert.AreEqual(expectedRows, actualRows, $"{actualRows} isn't equal to {expectedRows}");
         }
 
-        [Then(@"the values in the Department column do not contain the value Compliance")]
-        public void ThenTheValuesInTheDepartmentColumnDoNotContainTheValueCompliance()
+        [Then(@"the values in the Department column do not contain the value ""([^""]*)""")]
+        public void ThenTheValuesInTheDepartmentColumnDoNotContainTheValue(string departmentValue)
         {
-            Assert.IsTrue(webTables.IfComplianceDepartmentIsntPresent());
+            Assert.IsTrue(webTables.IfDepartmentValueIsntPresent(departmentValue));
         }
 
+        [Given(@"user is on Buttons page")]
+        public void GivenUserIsOnButtonsPage()
+        {
+            buttons.GoToButtonsSection();
+        }
+
+        [When(@"user clicks on button ""([^""]*)""")]
+        public void WhenUserClicksOnButton(string buttonName)
+        {
+            string expectedMessage = buttons.ClickOnButton(buttonName);
+            _scenarioContext["ExpectedMessage"] = expectedMessage;
+        }
+
+        [Then(@"the appropriate message is displayed")]
+        public void ThenTheAppropriateMessageIsDisplayed()
+        {
+            var expectedMessage = _scenarioContext["ExpectedMessage"] as string;
+
+        }
 
 
         [AfterScenario]
