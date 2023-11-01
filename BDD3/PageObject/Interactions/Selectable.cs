@@ -10,16 +10,29 @@ namespace BDD3.PageObject.Interactions
         public Selectable(IWebDriver webDriver) : base(webDriver)
         {
             this.webDriver = webDriver;
-            this.webDriver = new ChromeDriver();
         }
 
         private string GroupItemByText (string text) => $"//li[text()={text}]";
+        private string TabByTitle(string title) => $"//a[@id='demo-tab-{title}']";
 
-        private string gridTab = "//a[@id='demo-tab-grid']";
-        private string OneItem => GroupItemByText("One");
-        private string ThreeItem => GroupItemByText("Three");
-        private string FiveItem => GroupItemByText("Five");
-        private string SevenItem => GroupItemByText("Seven");
-        private string NineItem => GroupItemByText("Nine");
+        public void GoToInteractionsCategory()
+        {
+            CategoryByName("Interactions");
+        }
+
+        public void GoToSelectableSection()
+        {
+            SectionByName("Selectable");
+        }
+
+        public void OpenTab(string title)
+        {
+            Click(TabByTitle(title));
+        }
+
+        public void SelectItem(string number)
+        {
+            Click(GroupItemByText(number));
+        }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using BDD3.PageObject.Elements;
+using BoDi;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System.Net;
 
 namespace BDD3.StepDefinitions
 {
@@ -10,7 +9,16 @@ namespace BDD3.StepDefinitions
     public class ElementsStepDefinitions
     {
         private IWebDriver webDriver;
+        private readonly IObjectContainer _container;
+
         private string url = "https://demoqa.com/";
+
+        public ElementsStepDefinitions(IObjectContainer container, ScenarioContext scenarioContext)
+        {
+            _container = container;
+            webDriver = _container.Resolve<IWebDriver>();
+            _scenarioContext = scenarioContext;
+        }
 
         private TextBox textBox => new TextBox(webDriver);
         private CheckBox checkBox => new CheckBox(webDriver);
@@ -19,17 +27,11 @@ namespace BDD3.StepDefinitions
 
         private readonly ScenarioContext _scenarioContext;
 
-        public ElementsStepDefinitions(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
+        //public ElementsStepDefinitions(ScenarioContext scenarioContext)
+        //{
+        //    _scenarioContext = scenarioContext;
+        //}
 
-        [Given(@"open the browser")]
-        public void GivenOpenTheBrowser()
-        {
-            webDriver = new ChromeDriver();
-            webDriver.Manage().Window.Maximize();
-        }
 
         [Given(@"user is on the main page")]
         public void GivenUserIsOnTheMainPage()
@@ -37,8 +39,8 @@ namespace BDD3.StepDefinitions
             webDriver.Navigate().GoToUrl(url);
         }
 
-        [When(@"user opens the element category")]
-        public void WhenUserOpensTheElementCategory()
+        [When(@"user open the element category")]
+        public void WhenUserOpenTheElementCategory()
         {
             textBox.GoToElementSection();
         }
@@ -49,14 +51,13 @@ namespace BDD3.StepDefinitions
             textBox.GoToTextBox();
         }
 
-        [When(@"user enters personal data: ""([^""]*)"", ""([^""]*)"", ""([^""]*)"", ""([^""]*)"" in form")]
-        public void WhenUserEntersPersonalDataInForm(string name, string email, string currentAddress, string permanentAddress)
+        [When(@"user enters personal data: ""([^""]*)"", ""([^""]*)"", ""([^""]*)"", ""([^""]*)"" in TextBox form")]
+        public void WhenUserEntersPersonalDataInTextBoxForm(string name, string email, string currentAddress, string permanentAddress)
         {
             textBox.FillInForm(name, email, currentAddress, permanentAddress);
 
-            string[] expectedData = { name, email, currentAddress, permanentAddress};
+            string[] expectedData = { name, email, currentAddress, permanentAddress };
             _scenarioContext["ExpectedData"] = expectedData;
-
         }
 
         [When(@"user submits form")]
@@ -73,9 +74,8 @@ namespace BDD3.StepDefinitions
             Assert.AreEqual(expectedData, actualData, $"actual isn't equal to expected");
         }
 
-
-        [When(@"user goes to check box section")]
-        public void WhenUserGoesToCheckBoxSection()
+        [When(@"user goes to checkbox section")]
+        public void WhenUserGoesToCheckboxSection()
         {
             checkBox.GoToCheckBoxSection();
         }
@@ -106,34 +106,33 @@ namespace BDD3.StepDefinitions
             webTables.GoToWebTablesSection();
         }
 
-        [When(@"user clicks on ""([^""]*)"" column")]
-        public void WhenUserClicksOnColumn(string columnName)
+        [When(@"user sorts users' data by ""([^""]*)"" column in the table")]
+        public void WhenUserSortsUsersDataByColumnInTheTable(string columnName)
         {
             webTables.OrderBy(columnName);
         }
 
-        [Then(@"the values in the ""([^""]*)"" column are sorted in ""([^""]*)"" order")]
-        public void ThenTheValuesInTheColumnAreSortedInOrder(string salary, string ascending)
+        [Then(@"users' data are sorted in ""([^""]*)"" order by ""([^""]*)"" column")]
+        public void ThenUsersDataAreSortedInOrderByColumn(string salary, string ascending)
         {
-
         }
 
-        [When(@"user deletes ""([^""]*)"" line")]
-        public void WhenUserDeletesLine(string alden)
+        [When(@"user deletes user with name ""([^""]*)""")]
+        public void WhenUserDeletesUserWithName(string alden)
         {
             webTables.DeleteAlden();
         }
 
-        [Then(@"there are only ""([^""]*)"" rows left in the table")]
-        public void ThenThereAreOnlyRowsLeftInTheTable(int amount)
+        [Then(@"there are ""([^""]*)"" users left in the table")]
+        public void ThenThereAreUsersLeftInTheTable(int amount)
         {
             int actualRows = webTables.CountRows();
             int expectedRows = amount;
             Assert.AreEqual(expectedRows, actualRows, $"{actualRows} isn't equal to {expectedRows}");
         }
 
-        [Then(@"the values in the Department column do not contain the value ""([^""]*)""")]
-        public void ThenTheValuesInTheDepartmentColumnDoNotContainTheValue(string departmentValue)
+        [Then(@"the ""([^""]*)"" value is deleted from the Department column")]
+        public void ThenTheValueIsDeletedFromTheDepartmentColumn(string departmentValue)
         {
             Assert.IsTrue(webTables.IfDepartmentValueIsntPresent(departmentValue));
         }
@@ -156,13 +155,6 @@ namespace BDD3.StepDefinitions
         {
             var expectedMessage = _scenarioContext["ExpectedMessage"] as string;
 
-        }
-
-
-        [AfterScenario]
-        public void CleanUp()
-        {
-            webDriver.Quit();
         }
     }
 }
