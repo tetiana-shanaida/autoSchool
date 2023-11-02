@@ -42,11 +42,11 @@ namespace BDD3.PageObject
             element.SendKeys(text);
         }
 
-        //public string GetElementAttribute(string locator, string attribute)
-        //{
-        //    wait.Until(e => e.FindElement(By.XPath(locator)));
-        //    return FindElement(locator).GetAttribute(attribute);
-        //}
+        public string GetElementAttribute(string locator, string attribute)
+        {
+            wait.Until(e => e.FindElement(By.XPath(locator)));
+            return FindElement(locator).GetAttribute(attribute);
+        }
 
         public string GetElementText(string locator)
         {

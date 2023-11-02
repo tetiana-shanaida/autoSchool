@@ -23,6 +23,7 @@ namespace BDD3.PageObject.Elements
 
         public CheckBox ExpandFolder(string folderName)
         {
+            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(SelectFolderOrItemByName(folderName)));
             Click(ExpandFolderByName(folderName));
             return this;
         }

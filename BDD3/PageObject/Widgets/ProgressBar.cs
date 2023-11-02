@@ -1,6 +1,8 @@
 ﻿using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace BDD3.PageObject.Widgets
 {
@@ -32,12 +34,16 @@ namespace BDD3.PageObject.Widgets
             Click(actionButtonById("resetButton"));
         }
 
-        //public void WaitUntillProgressBarDone()
-        //{
-        //    WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(15));
-        //    wait.Until(e => e.TextToBePresentInElementValue(FindElement("//div[@role='progressbar']"), "100"));
-
-        //}
+        public void WaitUntillProgressBarDone(int expectedProgressValue)
+        {
+            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds());
+           
+            wait.Until(webDriver =>
+            {
+                string attributeValue = GetElementAttribute(progressBarInfo, "aria-valuenow");
+                return attributeValue.Equals(expectedProgressValue);
+            });
+        }
 
         public string GetButtonName()
         {
@@ -46,7 +52,7 @@ namespace BDD3.PageObject.Widgets
 
         public int GetValueOfProgressBar()
         {
-            string progressBarValue = FindElement(progressBarInfo).GetAttribute("aria-valuenow");
+            string progressBarValue = GetElementAttribute(progressBarInfo, "aria-valuenow");
             return Int32.Parse(progressBarValue);
         }
 

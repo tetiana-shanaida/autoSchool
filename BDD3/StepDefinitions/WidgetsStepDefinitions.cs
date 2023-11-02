@@ -39,7 +39,7 @@ namespace BDD3.StepDefinitions
         }
 
         [Then(@"autocomplete suggests ""([^""]*)"" variants")]
-        public void ThenAutocompleteSuggestsVariants(string expectedAmount)
+        public void ThenAutocompleteSuggestsVariants(int expectedAmount)
         {
             int actualAmount = autoComplete.GetAmountOfSuggestedOptions();
             Assert.AreEqual(expectedAmount, actualAmount, $"{expectedAmount} isn't equal to {actualAmount}");
@@ -86,9 +86,9 @@ namespace BDD3.StepDefinitions
         }
 
         [When(@"user waits until progress bar reaches ""([^""]*)""%")]
-        public void WhenUserWaitsUntilProgressBarReaches(string p0)
+        public void WhenUserWaitsUntilProgressBarReaches(int expectedProgressValue)
         {
-            throw new PendingStepException();
+            progressBar.WaitUntillProgressBarDone(expectedProgressValue);
         }
 
         [Then(@"name of the button is changed to ""([^""]*)""")]

@@ -1,7 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System.Linq;
-using OpenQA.Selenium.Chrome;
-using System.Security.Cryptography.X509Certificates;
 
 namespace BDD3.PageObject.Elements
 {
@@ -12,15 +9,14 @@ namespace BDD3.PageObject.Elements
         {
             this.webDriver = webDriver;
         }
-        private string WebTablesSection => SectionByName("Web Tables");
 
         private string ColumnName(string columnName) => $"//div[text()='{columnName}']//parent::div[@role=\"columnheader\"]";
         private string SelectorDeleteAlden = "//span[@id='delete-record-2']";
 
         public WebTables GoToWebTablesSection()
         {
-            Click(WebTablesSection);
-
+            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(SectionByName("Web Tables")));
+            Click(SectionByName("Web Tables"));
             return this;
         }
 
