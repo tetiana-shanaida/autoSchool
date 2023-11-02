@@ -1,7 +1,6 @@
 ﻿Feature: Widgets
 
 Background:
-	Given user is on main page
 	When user goes to the Widgets category
 
 Scenario: Section Auto Complete.Check autocomplete to one letter

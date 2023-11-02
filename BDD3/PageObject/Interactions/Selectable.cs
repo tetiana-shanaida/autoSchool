@@ -14,6 +14,7 @@ namespace BDD3.PageObject.Interactions
 
         private string GroupItemByText (string text) => $"//li[text()={text}]";
         private string TabByTitle(string title) => $"//a[@id='demo-tab-{title}']";
+        private string selectedItemsLocator = "//li[contains(@class, 'list-group-item active')]";
 
         public void GoToInteractionsCategory()
         {
@@ -34,5 +35,17 @@ namespace BDD3.PageObject.Interactions
         {
             Click(GroupItemByText(number));
         }
+
+        public List<string> GetSelectedItems()
+        {
+            List<string> actualValuesOfItems = new List<string>();
+            IList<IWebElement> selectedItems = FindElements(selectedItemsLocator);
+            foreach (IWebElement selectedItem in selectedItems)
+            {
+                actualValuesOfItems.Add(selectedItem.Text);
+            }
+            return actualValuesOfItems;
+        }
+
     }
 }

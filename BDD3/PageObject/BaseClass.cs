@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.Xml.Linq;
 
 namespace BDD3.PageObject
 {
@@ -22,6 +21,12 @@ namespace BDD3.PageObject
         {
             var element = wait.Until(e => e.FindElement(By.XPath(locator)));
             return element;
+        }
+
+        public IList<IWebElement> FindElements(string locator)
+        {
+            IList<IWebElement> elements = wait.Until(e => e.FindElements(By.XPath(locator)));
+            return elements;
         }
 
         public void Click(string locator)

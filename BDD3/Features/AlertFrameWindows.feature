@@ -1,7 +1,6 @@
 ﻿Feature: AlertFrameWindows
 
 Background:
-	Given user is on main page
 	When user goes to the Alerts, Frame & Windows category
 
 Scenario Outline:: Browser Windows

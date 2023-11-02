@@ -14,8 +14,6 @@ namespace BDD3.PageObject.Alert_Frame_Windows
 
         private string ButtonByID(string id) => $"//button[@id='{id}']";
         private string textOnNewPage = "//h1[@id='sampleHeading']";
-        private string newTabButton = "//button[@id='tabButton']";
-        public string newWindowButton = "//button[@id='windowButton']";
 
         public BrowserWindows GoToAlertFrameWindowsCategory()
         {
@@ -23,6 +21,7 @@ namespace BDD3.PageObject.Alert_Frame_Windows
             Click(CategoryByName("Alerts, Frame & Windows"));
             Click("//div[text()='Alerts, Frame & Windows']//following-sibling::div");
             return this;
+
         }
 
         public BrowserWindows GoToBrowserWindowsSection()

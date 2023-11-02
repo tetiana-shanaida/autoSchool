@@ -47,7 +47,7 @@ namespace BDD3.PageObject.Elements
 
         public bool IfDepartmentValueIsntPresent(string value)
         {
-            IList<IWebElement> departmentElements = webDriver.FindElements(By.XPath("//div[contains(@class, 'rt-tr')]/div[6]"));
+            IList<IWebElement> departmentElements = FindElements("//div[contains(@class, 'rt-tr')]/div[6]");
             bool isDepartmentValueIsntPresent = true;
             foreach (IWebElement element in departmentElements)
             {

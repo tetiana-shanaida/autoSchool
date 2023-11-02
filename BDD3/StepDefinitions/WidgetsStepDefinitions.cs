@@ -9,7 +9,6 @@ namespace BDD3.StepDefinitions
     public class WidgetsStepDefinitions
     {
         private IWebDriver webDriver;
-        private string url = "https://demoqa.com/";
         private readonly IObjectContainer _container;
 
         public WidgetsStepDefinitions(IObjectContainer container)
@@ -46,8 +45,8 @@ namespace BDD3.StepDefinitions
             Assert.AreEqual(expectedAmount, actualAmount, $"{expectedAmount} isn't equal to {actualAmount}");
         }
 
-        [Then(@"""([^""]*)"" exists in each variants")]
-        public void ThenExistsInEachVariants(string text)
+        [Then(@"each variants contains ""([^""]*)"" letter")]
+        public void ThenEachVariantsContainsLetter(string text)
         {
             bool isContainsText = autoComplete.CheckSuggestedOptions(text);
             Assert.IsTrue(isContainsText);

@@ -1,8 +1,7 @@
 ﻿using BDD3.PageObject.Alert_Frame_Windows;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
+using BoDi;
 
 namespace BDD3.StepDefinitions
 {
@@ -10,26 +9,16 @@ namespace BDD3.StepDefinitions
     public class AlertWindowsStepDefinitions
     {
         private IWebDriver webDriver;
-        private string url = "https://demoqa.com/";
-        private BrowserWindows browserWindows => new BrowserWindows(webDriver);
         private readonly ScenarioContext _scenarioContext;
+        private readonly IObjectContainer _container;
 
-        public AlertWindowsStepDefinitions(ScenarioContext scenarioContext)
+        public AlertWindowsStepDefinitions(ScenarioContext scenarioContext, IObjectContainer container)
         {
             _scenarioContext = scenarioContext;
+            _container = container;
+            webDriver = _container.Resolve<IWebDriver>();
         }
-
-        [BeforeScenario]
-        public void GivenOpenTheBrowser()
-        {
-            webDriver = new ChromeDriver();
-            webDriver.Manage().Window.Maximize();
-        }
-        [Given(@"user is on main page")]
-        public void GivenUserIsOnTheMainPage()
-        {
-            webDriver.Navigate().GoToUrl(url);
-        }
+        private BrowserWindows browserWindows => new BrowserWindows(webDriver);
 
         [When(@"user goes to the Alerts, Frame & Windows category")]
         public void WhenUserGoesToTheAlertsFrameWindowsCategory()
@@ -62,12 +51,5 @@ namespace BDD3.StepDefinitions
             var actualText = _scenarioContext["ActualText"] as string;
             Assert.AreEqual(expectedText, actualText);
         }
-        
-        [AfterScenario]
-        public void CleanUp()
-        {
-            webDriver.Quit();
-        }
-
     }
 }

@@ -72,7 +72,7 @@ namespace BDD3.PageObject.Widgets
 
         public bool IsColorExistInField(string color) //I thought that the task meant to check that there are those colors that you wrote and no others, but then that method will always accept three values and will not be "universal"
         {
-            IList<IWebElement> elements = webDriver.FindElements(By.XPath(existingColor));
+            IList<IWebElement> elements = FindElements(existingColor);
             foreach (var element in elements)
             {
                 var existingColor = element.Text;

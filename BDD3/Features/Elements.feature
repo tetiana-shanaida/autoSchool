@@ -1,7 +1,6 @@
 ﻿Feature: Elements
 
 Background:
-	Given user is on the main page
 	When user open the element category
 
 Scenario: Fill in TextBox form with correct data

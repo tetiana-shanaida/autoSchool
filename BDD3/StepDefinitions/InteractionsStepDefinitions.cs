@@ -1,8 +1,8 @@
-using BDD3.PageObject.Alert_Frame_Windows;
 using BDD3.PageObject.Interactions;
+using BoDi;
 using OpenQA.Selenium;
-using System;
-using TechTalk.SpecFlow;
+using NUnit.Framework;
+
 
 namespace BDD3.StepDefinitions
 {
@@ -10,8 +10,19 @@ namespace BDD3.StepDefinitions
     public class InteractionsStepDefinitions
     {
         private IWebDriver webDriver;
+        private readonly IObjectContainer _container;
+        public InteractionsStepDefinitions(IObjectContainer container)
+        {
+            _container = container;
+            webDriver = _container.Resolve<IWebDriver>();
+        }
         private Selectable selectable => new Selectable(webDriver);
 
+        [When(@"user open the Interactions category")]
+        public void WhenUserOpenTheInteractionsCategory()
+        {
+            selectable.GoToInteractionsCategory();
+        }
 
         [Given(@"user is on Selectable page")]
         public void GivenUserIsOnSelectablePage()
@@ -26,15 +37,19 @@ namespace BDD3.StepDefinitions
         }
 
         [When(@"user selects square ""([^""]*)""")]
-        public void WhenUserSelectsSquare(string number)
+        public void WhenUserSelectsSquare(string squareNumber)
         {
-            selectable.SelectItem(number);
+            selectable.SelectItem(squareNumber);
         }
 
-        [Then(@"")]
-        public void Then()
+        [Then(@"the values in selected squares are: ""([^""]*)"", ""([^""]*)"", ""([^""]*)"", ""([^""]*)"", ""([^""]*)""")]
+        public void ThenTheValuesInSelectedSquaresAre(string one, string three, string five, string seven, string nine)
         {
-            throw new PendingStepException();
+            List<string> expactedValues = new List<string> {one, three, five, seven, nine};
+            List<string> actualValues = selectable.GetSelectedItems();
+            Assert.AreEqual(expactedValues, actualValues);
         }
+
+
     }
 }

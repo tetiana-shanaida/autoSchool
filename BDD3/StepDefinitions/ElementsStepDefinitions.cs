@@ -10,9 +10,7 @@ namespace BDD3.StepDefinitions
     {
         private IWebDriver webDriver;
         private readonly IObjectContainer _container;
-
-        private string url = "https://demoqa.com/";
-
+        private readonly ScenarioContext _scenarioContext;
         public ElementsStepDefinitions(IObjectContainer container, ScenarioContext scenarioContext)
         {
             _container = container;
@@ -24,20 +22,6 @@ namespace BDD3.StepDefinitions
         private CheckBox checkBox => new CheckBox(webDriver);
         private WebTables webTables => new WebTables(webDriver);
         private Buttons buttons => new Buttons(webDriver);
-
-        private readonly ScenarioContext _scenarioContext;
-
-        //public ElementsStepDefinitions(ScenarioContext scenarioContext)
-        //{
-        //    _scenarioContext = scenarioContext;
-        //}
-
-
-        [Given(@"user is on the main page")]
-        public void GivenUserIsOnTheMainPage()
-        {
-            webDriver.Navigate().GoToUrl(url);
-        }
 
         [When(@"user open the element category")]
         public void WhenUserOpenTheElementCategory()

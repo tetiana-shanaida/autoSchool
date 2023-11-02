@@ -1,7 +1,6 @@
 ﻿using BoDi;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
-using TechTalk.SpecFlow;
 
 namespace BDD3.Features.Hooks
 {

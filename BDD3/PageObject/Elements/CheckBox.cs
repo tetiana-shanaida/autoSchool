@@ -37,7 +37,7 @@ namespace BDD3.PageObject.Elements
         public string ActualText()
         {
             List<string> actualTextList = new List<string>();
-            IList<IWebElement> elements = webDriver.FindElements(By.XPath("//div[@id='result']/span"));
+            IList<IWebElement> elements = FindElements("//div[@id='result']/span");
 
             foreach (IWebElement element in elements)
             {
