@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace BDD3.PageObject.Alert_Frame_Windows
 {

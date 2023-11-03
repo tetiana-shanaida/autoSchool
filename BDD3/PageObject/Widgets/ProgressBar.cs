@@ -1,8 +1,5 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using Newtonsoft.Json.Linq;
-using System;
 
 namespace BDD3.PageObject.Widgets
 {
@@ -36,7 +33,7 @@ namespace BDD3.PageObject.Widgets
 
         public void WaitUntillProgressBarDone(int expectedProgressValue)
         {
-            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds());
+            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(15));
            
             wait.Until(webDriver =>
             {

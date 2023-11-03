@@ -1,6 +1,4 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
-using static System.Net.Mime.MediaTypeNames;
+﻿using OpenQA.Selenium;
 
 namespace BDD3.PageObject.Widgets
 {

@@ -19,7 +19,6 @@ namespace BDD3.PageObject.Elements
             Click(SectionByName("Web Tables"));
             return this;
         }
-
         public WebTables OrderBy(string columnName)
         {
             Click(ColumnName(columnName)); 

@@ -38,10 +38,5 @@ namespace BDD3.PageObject
                 webDriver = null;
             }
         }
-
-        public static void NavigateTo(string url)
-        {
-            webDriver.Navigate().GoToUrl(url);
-        }
     }
 }
