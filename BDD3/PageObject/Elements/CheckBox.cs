@@ -1,14 +1,14 @@
-﻿using OpenQA.Selenium;
+﻿using BoDi;
+using OpenQA.Selenium;
 
 namespace BDD3.PageObject.Elements
 {
     public class CheckBox:BaseClass
     {
         private IWebDriver webDriver;
-
-        public CheckBox(IWebDriver webDriver) : base(webDriver)
+        public CheckBox(IObjectContainer conteiner) : base(conteiner)
         {
-            this.webDriver = webDriver;
+            webDriver = conteiner.Resolve<IWebDriver>();
         }
 
         private string ExpandFolderByName(string name) => $"//label[@for='tree-node-{name}']//preceding-sibling::button[@title='Toggle']";
@@ -23,14 +23,14 @@ namespace BDD3.PageObject.Elements
 
         public CheckBox ExpandFolder(string folderName)
         {
-            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(SelectFolderOrItemByName(folderName)));
+            ScrollToElement(SelectFolderOrItemByName(folderName));
             Click(ExpandFolderByName(folderName));
             return this;
         }
 
         public CheckBox SelectFolderOrItem(string folderName) 
         {
-            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(SelectFolderOrItemByName(folderName)));
+            ScrollToElement(SelectFolderOrItemByName(folderName));
             Click(SelectFolderOrItemByName(folderName)); 
             return this; 
         }

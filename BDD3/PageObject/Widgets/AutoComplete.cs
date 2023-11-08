@@ -1,14 +1,14 @@
-﻿using OpenQA.Selenium;
+﻿using BoDi;
+using OpenQA.Selenium;
 
 namespace BDD3.PageObject.Widgets
 {
     public class AutoComplete:BaseClass
     {
         private IWebDriver webDriver;
-
-        public AutoComplete(IWebDriver webDriver) : base(webDriver)
+        public AutoComplete(IObjectContainer conteiner) : base(conteiner)
         {
-            this.webDriver = webDriver;
+            webDriver = conteiner.Resolve<IWebDriver>();
         }
 
         private string multipleColorNamesInputField = "//input[@id='autoCompleteMultipleInput']";
@@ -18,7 +18,7 @@ namespace BDD3.PageObject.Widgets
 
         public AutoComplete GoToWidgetsCategory()
         {
-            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(CategoryByName("Widgets")));
+            ScrollToElement("Widgets");
             Click(CategoryByName("Widgets"));
             Click("//div[text()='Widgets']//following-sibling::div");
             return this;
@@ -48,13 +48,13 @@ namespace BDD3.PageObject.Widgets
 
         public int GetAmountOfSuggestedOptions()
         {
-            IList<IWebElement> elements = webDriver.FindElements(By.XPath(suggestedOptions));
+            IList<IWebElement> elements = FindElements(suggestedOptions);
             return elements.Count;
         }
 
         public bool CheckSuggestedOptions(string text)
         {
-            IList<IWebElement> elements = webDriver.FindElements(By.XPath(suggestedOptions));
+            IList<IWebElement> elements = FindElements(suggestedOptions);
             bool containsText = true;
             foreach (IWebElement element in elements)
             {

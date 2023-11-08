@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using BoDi;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace BDD3.PageObject.Widgets
@@ -6,10 +7,9 @@ namespace BDD3.PageObject.Widgets
     public class ProgressBar:BaseClass
     {
         private IWebDriver webDriver;
-
-        public ProgressBar(IWebDriver webDriver) : base(webDriver)
+        public ProgressBar(IObjectContainer conteiner) : base(conteiner)
         {
-            this.webDriver = webDriver;
+            webDriver = conteiner.Resolve<IWebDriver>();
         }
 
         private string actionButtonById(string id) => $"//button[@id='{id}']";

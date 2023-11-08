@@ -9,14 +9,14 @@ namespace BDD3.StepDefinitions
     [Binding]
     public class InteractionsStepDefinitions
     {
-        private IWebDriver webDriver;
         private readonly IObjectContainer _container;
-        public InteractionsStepDefinitions(IObjectContainer container)
+
+        public InteractionsStepDefinitions(IObjectContainer container, Selectable selectable)
         {
             _container = container;
-            webDriver = _container.Resolve<IWebDriver>();
+            this.selectable = selectable;
         }
-        private Selectable selectable => new Selectable(webDriver);
+        private Selectable selectable;
 
         [When(@"user open the Interactions category")]
         public void WhenUserOpenTheInteractionsCategory()

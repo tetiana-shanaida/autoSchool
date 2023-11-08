@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using BoDi;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace BDD3.PageObject
@@ -8,9 +9,9 @@ namespace BDD3.PageObject
         private IWebDriver webdriver;
         private WebDriverWait wait;
 
-        public BaseClass(IWebDriver driver)
+        public BaseClass(IObjectContainer conteiner)
         {
-            this.webdriver = driver;
+            webdriver = conteiner.Resolve<IWebDriver>();
             wait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(10));
         }
 
@@ -25,32 +26,33 @@ namespace BDD3.PageObject
 
         public IList<IWebElement> FindElements(string locator)
         {
-            IList<IWebElement> elements = wait.Until(e => e.FindElements(By.XPath(locator)));
+            var elements = wait.Until(e => e.FindElements(By.XPath(locator)));
             return elements;
         }
 
         public void Click(string locator)
         {
-            wait.Until(e => e.FindElement(By.XPath(locator)));
             FindElement(locator).Click();
         }
 
         public void FillInputField(string locator, string text)
         {
-            var element = wait.Until(e => e.FindElement(By.XPath(locator)));
+            var element = FindElement(locator);
             element.Clear();
             element.SendKeys(text);
         }
 
         public string GetElementAttribute(string locator, string attribute)
         {
-            wait.Until(e => e.FindElement(By.XPath(locator)));
             return FindElement(locator).GetAttribute(attribute);
         }
 
+        public void ScrollToElement(string locator)
+        {
+            ((IJavaScriptExecutor)webdriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(SectionByName(locator)));
+        }
         public string GetElementText(string locator)
         {
-            wait.Until(e => e.FindElement(By.XPath(locator)));
             return FindElement(locator).Text;
         }
     }

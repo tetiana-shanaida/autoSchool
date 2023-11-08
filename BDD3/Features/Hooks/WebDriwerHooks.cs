@@ -12,7 +12,7 @@ namespace BDD3.Features.Hooks
         {
             _container = container;
         }
-        // For additional details on SpecFlow hooks see http://go.specflow.org/doc-hooks
+
 
 
         [BeforeScenario(Order = 1)]

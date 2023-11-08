@@ -1,24 +1,26 @@
-﻿using OpenQA.Selenium;
+﻿using BoDi;
+using OpenQA.Selenium;
 
 namespace BDD3.PageObject.Elements
 {
     public class Buttons:BaseClass
     {
         private IWebDriver webDriver;
-        public Buttons(IWebDriver webDriver) : base(webDriver)
+        public Buttons(IObjectContainer conteiner) : base(conteiner)
         {
-            this.webDriver = webDriver;
+            webDriver = conteiner.Resolve<IWebDriver>();
         }
 
         private string ButtonsSection => SectionByName("Buttons");
         private string DoubleClickMe = "//button[@id='doubleClickBtn']";
         private string RightClickMe = "//button[@id='rightClickBtn']";
         private string ClickMe = "//button[text()='Click Me']";
+        private string textAfterClicking = "//div[@class='mt-4']/following-sibling::p[contains(@id, 'ClickMessage')]";
 
 
         public Buttons GoToButtonsSection()
         {
-            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(ButtonsSection));
+            ScrollToElement(ButtonsSection);
             Click(ButtonsSection);
 
             return this;
@@ -39,6 +41,11 @@ namespace BDD3.PageObject.Elements
                 default:
                     return "Invalid button name";
             }
+        }
+
+        public string GetTextAfterClicking()
+        {
+            return GetElementText(textAfterClicking);
         }
     }
 }

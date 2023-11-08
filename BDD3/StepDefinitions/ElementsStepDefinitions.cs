@@ -1,27 +1,29 @@
 ﻿using BDD3.PageObject.Elements;
 using BoDi;
 using NUnit.Framework;
-using OpenQA.Selenium;
 
 namespace BDD3.StepDefinitions
 {
     [Binding]
     public class ElementsStepDefinitions
     {
-        private IWebDriver webDriver;
         private readonly IObjectContainer _container;
         private readonly ScenarioContext _scenarioContext;
-        public ElementsStepDefinitions(IObjectContainer container, ScenarioContext scenarioContext)
+
+        public ElementsStepDefinitions(ScenarioContext scenarioContext, IObjectContainer container, TextBox textBox, CheckBox checkBox, WebTables webTables, Buttons buttons)
         {
-            _container = container;
-            webDriver = _container.Resolve<IWebDriver>();
             _scenarioContext = scenarioContext;
+            _container = container;
+            this.textBox = textBox;
+            this.checkBox = checkBox;
+            this.webTables = webTables;
+            this.buttons = buttons;
         }
 
-        private TextBox textBox => new TextBox(webDriver);
-        private CheckBox checkBox => new CheckBox(webDriver);
-        private WebTables webTables => new WebTables(webDriver);
-        private Buttons buttons => new Buttons(webDriver);
+        private TextBox textBox;
+        private CheckBox checkBox;
+        private WebTables webTables;
+        private Buttons buttons;
 
         [When(@"user open the element category")]
         public void WhenUserOpenTheElementCategory()
@@ -93,7 +95,7 @@ namespace BDD3.StepDefinitions
         [When(@"user sorts users' data by ""([^""]*)"" column in the table")]
         public void WhenUserSortsUsersDataByColumnInTheTable(string columnName)
         {
-            webTables.OrderBy(columnName);
+            webTables.OrderByColumnName(columnName);
         }
 
         [Then(@"users' data are sorted in ""([^""]*)"" order by ""([^""]*)"" column")]
@@ -104,15 +106,13 @@ namespace BDD3.StepDefinitions
         [When(@"user deletes user with name ""([^""]*)""")]
         public void WhenUserDeletesUserWithName(string alden)
         {
-            webTables.DeleteAlden();
+            webTables.DeleteUserByName(alden);
         }
 
         [Then(@"there are ""([^""]*)"" users left in the table")]
-        public void ThenThereAreUsersLeftInTheTable(int amount)
+        public void ThenThereAreUsersLeftInTheTable(int expectedRows)
         {
-            int actualRows = webTables.CountRows();
-            int expectedRows = amount;
-            Assert.AreEqual(expectedRows, actualRows, $"{actualRows} isn't equal to {expectedRows}");
+            Assert.AreEqual(expectedRows, webTables.CountRows(), $" isn't equal to {expectedRows}");
         }
 
         [Then(@"the ""([^""]*)"" value is deleted from the Department column")]
@@ -138,7 +138,8 @@ namespace BDD3.StepDefinitions
         public void ThenTheAppropriateMessageIsDisplayed()
         {
             var expectedMessage = _scenarioContext["ExpectedMessage"] as string;
-
+            var actualMessage = buttons.GetTextAfterClicking();
+            Assert.AreEqual(expectedMessage, actualMessage, $"{actualMessage} isn't equal to {expectedMessage}");
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BDD3.PageObject.Alert_Frame_Windows;
-using OpenQA.Selenium;
 using NUnit.Framework;
 using BoDi;
 
@@ -8,17 +7,14 @@ namespace BDD3.StepDefinitions
     [Binding]
     public class AlertWindowsStepDefinitions
     {
-        private IWebDriver webDriver;
-        private readonly ScenarioContext _scenarioContext;
         private readonly IObjectContainer _container;
 
-        public AlertWindowsStepDefinitions(ScenarioContext scenarioContext, IObjectContainer container)
+        public AlertWindowsStepDefinitions(IObjectContainer container, BrowserWindows browserWindows)
         {
-            _scenarioContext = scenarioContext;
             _container = container;
-            webDriver = _container.Resolve<IWebDriver>();
+            this.browserWindows = browserWindows;
         }
-        private BrowserWindows browserWindows => new BrowserWindows(webDriver);
+        private BrowserWindows browserWindows;
 
         [When(@"user goes to the Alerts, Frame & Windows category")]
         public void WhenUserGoesToTheAlertsFrameWindowsCategory()
@@ -41,14 +37,13 @@ namespace BDD3.StepDefinitions
         [When(@"user goes to new tab or window")]
         public void WhenUserGoesToNewTabOrWindow()
         {
-            string actualText = browserWindows.ChangeTabOrWindow();
-            _scenarioContext["ActualText"] = actualText;
+            browserWindows.ChangeTabOrWindow();
         }
 
         [Then(@"user see text ""([^""]*)"" on the page")]
         public void ThenUserSeeTextOnThePage(string expectedText)
         {
-            var actualText = _scenarioContext["ActualText"] as string;
+            var actualText = browserWindows.GetTextOnNewPage();
             Assert.AreEqual(expectedText, actualText);
         }
     }

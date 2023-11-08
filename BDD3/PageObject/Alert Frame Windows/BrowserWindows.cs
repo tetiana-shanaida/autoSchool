@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using BoDi;
+using OpenQA.Selenium;
 
 namespace BDD3.PageObject.Alert_Frame_Windows
 {
@@ -6,9 +7,9 @@ namespace BDD3.PageObject.Alert_Frame_Windows
     {
         private IWebDriver webDriver;
 
-        public BrowserWindows(IWebDriver webDriver) : base(webDriver)
+        public BrowserWindows(IObjectContainer conteiner) : base(conteiner)
         {
-            this.webDriver = webDriver;
+            webDriver = conteiner.Resolve<IWebDriver>();
         }
 
         private string ButtonByID(string id) => $"//button[@id='{id}']";
@@ -16,7 +17,7 @@ namespace BDD3.PageObject.Alert_Frame_Windows
 
         public BrowserWindows GoToAlertFrameWindowsCategory()
         {
-            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(CategoryByName("Alerts, Frame & Windows")));
+            ScrollToElement("Alerts, Frame & Windows");
             Click(CategoryByName("Alerts, Frame & Windows"));
             Click("//div[text()='Alerts, Frame & Windows']//following-sibling::div");
             return this;
@@ -35,7 +36,7 @@ namespace BDD3.PageObject.Alert_Frame_Windows
             return this;
         }
 
-        public string ChangeTabOrWindow()
+        public void ChangeTabOrWindow()
         {
             string originalWindow = webDriver.CurrentWindowHandle;
             var allWindows = webDriver.WindowHandles;
@@ -48,6 +49,10 @@ namespace BDD3.PageObject.Alert_Frame_Windows
                     break;
                 }
             }
+        }
+
+        public string GetTextOnNewPage()
+        {
             return GetElementText(textOnNewPage);
         }
     }

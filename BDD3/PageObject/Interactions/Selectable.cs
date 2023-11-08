@@ -1,14 +1,14 @@
-﻿using OpenQA.Selenium;
+﻿using BoDi;
+using OpenQA.Selenium;
 
 namespace BDD3.PageObject.Interactions
 {
     public class Selectable:BaseClass
     {
         private IWebDriver webDriver;
-
-        public Selectable(IWebDriver webDriver) : base(webDriver)
+        public Selectable(IObjectContainer conteiner) : base(conteiner)
         {
-            this.webDriver = webDriver;
+            webDriver = conteiner.Resolve<IWebDriver>();
         }
 
         private string GroupItemByText (string text) => $"//li[text()={text}]";

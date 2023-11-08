@@ -1,14 +1,14 @@
-﻿using OpenQA.Selenium;
+﻿using BoDi;
+using OpenQA.Selenium;
 
 namespace BDD3.PageObject.Elements
 {
     public class TextBox : BaseClass
     {
         private IWebDriver webDriver;
-
-        public TextBox(IWebDriver webDriver) : base(webDriver)
+        public TextBox(IObjectContainer conteiner) : base(conteiner)
         {
-            this.webDriver = webDriver;
+            webDriver = conteiner.Resolve<IWebDriver>();
         }
 
         private string InputFieldById(string id) => $"//input[@id='{id}']";
@@ -18,7 +18,7 @@ namespace BDD3.PageObject.Elements
 
         public void GoToElementSection()
         {
-            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(CategoryByName("Elements")));
+            ScrollToElement(CategoryByName("Elements"));
             Click(CategoryByName("Elements"));
             Click("//div[text()='Elements']//following-sibling::div");
         }
@@ -41,7 +41,7 @@ namespace BDD3.PageObject.Elements
 
         public TextBox Submit()
         {
-            ((IJavaScriptExecutor)webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(submitButton));
+            ScrollToElement(submitButton);
             Click(submitButton);
             return this;
         }

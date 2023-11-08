@@ -1,5 +1,4 @@
 ﻿using BDD3.PageObject.Widgets;
-using OpenQA.Selenium;
 using NUnit.Framework;
 using BoDi;
 
@@ -8,18 +7,16 @@ namespace BDD3.StepDefinitions
     [Binding]
     public class WidgetsStepDefinitions
     {
-        private IWebDriver webDriver;
         private readonly IObjectContainer _container;
-
-        public WidgetsStepDefinitions(IObjectContainer container)
+        private AutoComplete autoComplete;
+        private ProgressBar progressBar;
+        public WidgetsStepDefinitions(IObjectContainer container, AutoComplete autoComplete, ProgressBar progressBar)
         {
             _container = container;
-            webDriver = _container.Resolve<IWebDriver>();
+            this.autoComplete= autoComplete;
+            this.progressBar = progressBar;
         }
-
-        private AutoComplete autoComplete => new AutoComplete(webDriver);
-        private ProgressBar progressBar => new ProgressBar(webDriver);
-
+        
         [When(@"user goes to the Widgets category")]
         public void WhenUserGoesToTheWidgetsCategory()
         {
