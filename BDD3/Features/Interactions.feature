@@ -12,4 +12,4 @@ Scenario: Selectable section
 	And user selects square "Five"
 	And user selects square "Seven"
 	And user selects square "Nine"
-	Then the values in selected squares are: "One", "Three", "Five", "Seven", "Nine"
+	Then the values in selected squares are: "One,Three,Five,Seven,Nine"

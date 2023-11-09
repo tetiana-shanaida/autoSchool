@@ -98,6 +98,7 @@ namespace BDD3.StepDefinitions
         [Then(@"users' data are sorted in ""([^""]*)"" order by ""([^""]*)"" column")]
         public void ThenUsersDataAreSortedInOrderByColumn(string salary, string ascending)
         {
+            Assert.IsTrue(webTables.CheckSortingByColumnInOrder());
         }
 
         [When(@"user deletes user with name ""([^""]*)""")]
@@ -109,7 +110,7 @@ namespace BDD3.StepDefinitions
         [Then(@"there are ""([^""]*)"" users left in the table")]
         public void ThenThereAreUsersLeftInTheTable(int expectedRows)
         {
-            Assert.AreEqual(expectedRows, webTables.CountRows(), $" isn't equal to {expectedRows}");
+            Assert.AreEqual(expectedRows, webTables.CountFilledTableRows(), $" isn't equal to {expectedRows}");
         }
 
         [Then(@"the ""([^""]*)"" value is deleted from the Department column")]

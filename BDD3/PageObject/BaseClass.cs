@@ -1,5 +1,6 @@
 ﻿using BoDi;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
 namespace BDD3.PageObject
@@ -8,12 +9,15 @@ namespace BDD3.PageObject
     {
         private IWebDriver webdriver;
         private WebDriverWait wait;
-
+        private Actions action;
         public BaseClass(IObjectContainer conteiner)
         {
             webdriver = conteiner.Resolve<IWebDriver>();
             wait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(15));
+            action = new Actions(webdriver);
         }
+
+        
 
         protected string CategoryByName (string name) => $"//h5[text()='{name}']//parent::div[@class='card-body']";
         protected string SectionByName(string name) => $"//span[text()='{name}']//ancestor::li";
@@ -55,6 +59,16 @@ namespace BDD3.PageObject
         public string GetElementText(string locator)
         {
             return FindElement(locator).Text;
+        }
+
+        public void RightClick(string locator)
+        {
+            action.ContextClick(FindElement(locator)).Perform();
+        }
+
+        public void DoubleClick(string locator)
+        {
+            action.DoubleClick(FindElement(locator)).Perform();
         }
     }
 }

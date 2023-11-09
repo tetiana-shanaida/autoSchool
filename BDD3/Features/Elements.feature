@@ -44,5 +44,5 @@ Scenario: WebTables section. Checking deleting user data
 
 Scenario: Buttons section
 	Given user is on Buttons page
-	When user clicks on button "Right click me"
+	When user clicks on button "Double Click Me"
 	Then the appropriate message is displayed

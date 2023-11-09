@@ -20,12 +20,12 @@ namespace BDD3.PageObject.Elements
         {
             ScrollToElement(CategoryByName("Elements"));
             Click(CategoryByName("Elements"));
-            Click("//div[text()='Elements']//following-sibling::div");
+            //Click("//div[text()='Elements']//following-sibling::div");
         }
 
         public void GoToTextBox() 
-        { 
-            Click("//span[text()='Text Box']"); 
+        {
+            Click(SectionByName("Text Box"));
         }
 
         public void FillInForm(string fullName, string email, string currentAdress, string permanentAddress)
@@ -45,11 +45,11 @@ namespace BDD3.PageObject.Elements
         public List<string> GetActualData()
         {
             List<string> actualData = new List<string>();
-            string[] fieldLocators = { EnteredUserDataById("name"), EnteredUserDataById("email"), TextareaFieldById("currentAddress"), TextareaFieldById("permanentAddress") };
+            string[] fieldLocators = { EnteredUserDataById("name"), EnteredUserDataById("email"), EnteredUserDataById("currentAddress"), EnteredUserDataById("permanentAddress") };
             foreach (string field in fieldLocators)
             {
                 string[] arrayOfTotalActualData = GetElementText(field).Split(":");
-                actualData.Add(arrayOfTotalActualData[1]);
+                actualData.Add(arrayOfTotalActualData[1].Trim());
             }
             return actualData;
         }

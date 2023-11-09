@@ -29,10 +29,11 @@ namespace BDD3.PageObject.Elements
             switch (buttonName)
             {
                 case "Double Click Me":
-                    Click(DoubleClickMe);
+                    ScrollToElement(DoubleClickMe);
+                    DoubleClick(DoubleClickMe);
                     return "You have done a double click";
                 case "Right Click Me":
-                    Click(RightClickMe);
+                    RightClick(RightClickMe);
                     return "You have done a right click";
                 case "Click Me":
                     Click(ClickMe);

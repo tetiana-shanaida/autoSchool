@@ -42,14 +42,13 @@ namespace BDD3.StepDefinitions
             selectable.SelectItem(squareNumber);
         }
 
-        [Then(@"the values in selected squares are: ""([^""]*)"", ""([^""]*)"", ""([^""]*)"", ""([^""]*)"", ""([^""]*)""")]
-        public void ThenTheValuesInSelectedSquaresAre(string one, string three, string five, string seven, string nine)
+        [Then(@"the values in selected squares are: ""([^""]*)""")]
+        public void ThenTheValuesInSelectedSquaresAre(string expectedText)
         {
-            List<string> expactedValues = new List<string> {one, three, five, seven, nine};
+            var expactedValues = expectedText.Split(',').ToList();
             List<string> actualValues = selectable.GetSelectedItems();
             Assert.AreEqual(expactedValues, actualValues);
         }
-
 
     }
 }

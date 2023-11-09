@@ -11,12 +11,13 @@ namespace BDD3.PageObject.Interactions
             webDriver = conteiner.Resolve<IWebDriver>();
         }
 
-        private string GroupItemByText (string text) => $"//li[text()={text}]";
+        private string GroupItemByText (string text) => $"//li[text()='{text}']";
         private string TabByTitle(string title) => $"//a[@id='demo-tab-{title}']";
         private string selectedItemsLocator = "//li[contains(@class, 'list-group-item active')]";
 
         public void GoToInteractionsCategory()
         {
+            ScrollToElement(CategoryByName("Interactions"));
             Click(CategoryByName("Interactions"));
         }
 

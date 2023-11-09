@@ -14,12 +14,10 @@ namespace BDD3.PageObject.Elements
         private string ExpandFolderByName(string name) => $"//label[@for='tree-node-{name}']//preceding-sibling::button[@title='Toggle']";
         private string SelectFolderOrItemByName(string name) => $"//label[@for='tree-node-{name}']//span[@class='rct-checkbox']";
 
-        public CheckBox GoToCheckBoxSection()
+        public void GoToCheckBoxSection()
         {
-            ScrollToElement("//span[text()='Check Box']");
-            Click("//span[text()='Check Box']");
-
-            return this;
+            ScrollToElement(SectionByName("Check Box"));
+            Click(SectionByName("Check Box"));
         }
 
         public CheckBox ExpandFolder(string folderName)

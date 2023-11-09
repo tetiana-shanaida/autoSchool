@@ -127,7 +127,7 @@ this.FeatureBackground();
  testRunner.And("user selects square \"Nine\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 15
- testRunner.Then("the values in selected squares are: \"One\", \"Three\", \"Five\", \"Seven\", \"Nine\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the values in selected squares are: \"One,Three,Five,Seven,Nine\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -289,7 +289,7 @@ this.FeatureBackground();
  testRunner.Given("user is on Buttons page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 47
- testRunner.When("user clicks on button \"Right click me\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("user clicks on button \"Double Click Me\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 48
  testRunner.Then("the appropriate message is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
