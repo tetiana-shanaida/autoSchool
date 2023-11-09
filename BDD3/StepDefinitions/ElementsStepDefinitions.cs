@@ -37,13 +37,10 @@ namespace BDD3.StepDefinitions
             textBox.GoToTextBox();
         }
 
-        [When(@"user enters personal data: ""([^""]*)"", ""([^""]*)"", ""([^""]*)"", ""([^""]*)"" in TextBox form")]
+        [When(@"user enters personal data: (.*), (.*), (.*),(.*) in TextBox form")]
         public void WhenUserEntersPersonalDataInTextBoxForm(string name, string email, string currentAddress, string permanentAddress)
         {
             textBox.FillInForm(name, email, currentAddress, permanentAddress);
-
-            string[] expectedData = { name, email, currentAddress, permanentAddress };
-            _scenarioContext["ExpectedData"] = expectedData;
         }
 
         [When(@"user submits form")]
@@ -52,11 +49,11 @@ namespace BDD3.StepDefinitions
             textBox.Submit();
         }
 
-        [Then(@"entered data are displayed in the appeared table")]
-        public void ThenEnteredDataAreDisplayedInTheAppearedTable()
+        [Then(@"(.*), (.*), (.*), (.*) are displayed in the appeared table")]
+        public void ThenTanyaTanyaGmail_ComTernopilOdessaAreDisplayedInTheAppearedTable(string name, string email, string currentAddress, string permanentAddress)
         {
+            var expectedData = new List<string> {name,email, currentAddress, permanentAddress};
             List<string> actualData = textBox.GetActualData();
-            var expectedData = _scenarioContext["ExpectedData"] as List<string>;
             Assert.AreEqual(expectedData, actualData, $"actual isn't equal to expected");
         }
 

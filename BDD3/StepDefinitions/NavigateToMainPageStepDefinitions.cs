@@ -1,19 +1,19 @@
 ﻿using OpenQA.Selenium;
 
-namespace BDD3.Features.Hooks
+namespace BDD3.StepDefinitions
 {
     [Binding]
-    public sealed class NavigateToMainPage
+    public class NavigateToMainPageStepDefinitions
     {
         private IWebDriver webDriver;
         private string homePage = "https://demoqa.com/";
-        public NavigateToMainPage(IWebDriver webDriver)
+        public NavigateToMainPageStepDefinitions(IWebDriver webDriver)
         {
             this.webDriver = webDriver;
         }
 
-        [BeforeScenario]
-        public void BeforeScenarioWithTag()
+        [Given(@"user is on the main page")]
+        public void GivenUserIsOnTheMainPage()
         {
             webDriver.Navigate().GoToUrl(homePage);
         }

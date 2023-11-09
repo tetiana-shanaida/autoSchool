@@ -1,13 +1,18 @@
 ﻿Feature: Elements
 
 Background:
+	Given user is on the main page
 	When user open the element category
 
-Scenario: Fill in TextBox form with correct data
+Scenario Outline: Fill in TextBox form with correct data
 	When user goes to text box section
-	When user enters personal data: "Lubov", "tanya@gmail.com", "Ternopil", "Odessa" in TextBox form
+	When user enters personal data: <name>, <email>, <currentAddress>, <permanentAddress> in TextBox form
 	And user submits form
-	Then entered data are displayed in the appeared table
+	Then <name>, <email>, <currentAddress>, <permanentAddress> are displayed in the appeared table
+Examples:
+    | name  | email           | currentAddress | permanentAddress |
+    | Tanya | tanya@gmail.com | Ternopil       | Odessa           |
+   
 
 Scenario: CheckBox section
 	When user goes to checkbox section

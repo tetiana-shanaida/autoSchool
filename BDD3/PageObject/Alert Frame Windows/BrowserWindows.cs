@@ -17,7 +17,7 @@ namespace BDD3.PageObject.Alert_Frame_Windows
 
         public BrowserWindows GoToAlertFrameWindowsCategory()
         {
-            ScrollToElement("Alerts, Frame & Windows");
+            ScrollToElement(CategoryByName("Alerts, Frame & Windows"));
             Click(CategoryByName("Alerts, Frame & Windows"));
             Click("//div[text()='Alerts, Frame & Windows']//following-sibling::div");
             return this;
@@ -26,6 +26,7 @@ namespace BDD3.PageObject.Alert_Frame_Windows
 
         public BrowserWindows GoToBrowserWindowsSection()
         {
+            ScrollToElement(SectionByName("Browser Windows"));
             Click(SectionByName("Browser Windows"));
             return this;
         }

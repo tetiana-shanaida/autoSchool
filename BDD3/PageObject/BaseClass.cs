@@ -12,7 +12,7 @@ namespace BDD3.PageObject
         public BaseClass(IObjectContainer conteiner)
         {
             webdriver = conteiner.Resolve<IWebDriver>();
-            wait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(10));
+            wait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(15));
         }
 
         protected string CategoryByName (string name) => $"//h5[text()='{name}']//parent::div[@class='card-body']";
@@ -49,7 +49,8 @@ namespace BDD3.PageObject
 
         public void ScrollToElement(string locator)
         {
-            ((IJavaScriptExecutor)webdriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(SectionByName(locator)));
+            wait.Until(e => e.FindElements(By.XPath(locator)));
+            ((IJavaScriptExecutor)webdriver).ExecuteScript("arguments[0].scrollIntoView(true);", FindElement(locator));
         }
         public string GetElementText(string locator)
         {

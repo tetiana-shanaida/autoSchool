@@ -16,7 +16,8 @@ namespace BDD3.PageObject.Elements
 
         public CheckBox GoToCheckBoxSection()
         {
-            Click(SectionByName("Check Box"));
+            ScrollToElement("//span[text()='Check Box']");
+            Click("//span[text()='Check Box']");
 
             return this;
         }

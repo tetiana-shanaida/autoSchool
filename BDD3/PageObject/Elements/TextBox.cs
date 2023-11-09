@@ -23,27 +23,23 @@ namespace BDD3.PageObject.Elements
             Click("//div[text()='Elements']//following-sibling::div");
         }
 
-        public TextBox GoToTextBox() 
+        public void GoToTextBox() 
         { 
-            Click(SectionByName("Text Box")); 
-            return this; 
+            Click("//span[text()='Text Box']"); 
         }
 
-        public TextBox FillInForm(string fullName, string email, string currentAdress, string permanentAddress)
+        public void FillInForm(string fullName, string email, string currentAdress, string permanentAddress)
         {
             FillInputField(InputFieldById("userName"), fullName);
             FillInputField(InputFieldById("userEmail"), email);
             FillInputField(TextareaFieldById("currentAddress"), currentAdress);
             FillInputField(TextareaFieldById("permanentAddress"), permanentAddress);
-
-            return this;
         }
 
-        public TextBox Submit()
+        public void Submit()
         {
             ScrollToElement(submitButton);
             Click(submitButton);
-            return this;
         }
 
         public List<string> GetActualData()

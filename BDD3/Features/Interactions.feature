@@ -1,6 +1,7 @@
 ﻿Feature: Interactions
 
 Background:
+	Given user is on the main page
 	When user open the Interactions category
 
 Scenario: Selectable section

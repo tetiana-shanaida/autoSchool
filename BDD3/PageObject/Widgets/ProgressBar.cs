@@ -1,6 +1,5 @@
 ﻿using BoDi;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 namespace BDD3.PageObject.Widgets
 {
@@ -14,7 +13,7 @@ namespace BDD3.PageObject.Widgets
 
         private string actionButtonById(string id) => $"//button[@id='{id}']";
         private string buttonName = "//div[@id='progressBarContainer']//child::button";
-        private string progressBarInfo = "//div[@class='progress-bar bg-info']";
+        private string progressBar = "//div[@role='progressbar']";
 
         public void GoToProgressBarSection()
         {
@@ -31,15 +30,12 @@ namespace BDD3.PageObject.Widgets
             Click(actionButtonById("resetButton"));
         }
 
-        public void WaitUntillProgressBarDone(int expectedProgressValue)
+        public void WaitUntillProgressBarDone()
         {
-            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(15));
-           
-            wait.Until(webDriver =>
+            while(GetElementAttribute(progressBar, "aria-valuenow") != "100")
             {
-                string attributeValue = GetElementAttribute(progressBarInfo, "aria-valuenow");
-                return attributeValue.Equals(expectedProgressValue);
-            });
+                Thread.Sleep(1000);
+            }
         }
 
         public string GetButtonName()
@@ -49,7 +45,7 @@ namespace BDD3.PageObject.Widgets
 
         public int GetValueOfProgressBar()
         {
-            string progressBarValue = GetElementAttribute(progressBarInfo, "aria-valuenow");
+            string progressBarValue = GetElementAttribute(progressBar, "aria-valuenow");
             return Int32.Parse(progressBarValue);
         }
 

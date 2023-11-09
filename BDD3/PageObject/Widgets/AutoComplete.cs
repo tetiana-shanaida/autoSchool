@@ -18,7 +18,7 @@ namespace BDD3.PageObject.Widgets
 
         public AutoComplete GoToWidgetsCategory()
         {
-            ScrollToElement("Widgets");
+            ScrollToElement(CategoryByName("Widgets"));
             Click(CategoryByName("Widgets"));
             Click("//div[text()='Widgets']//following-sibling::div");
             return this;

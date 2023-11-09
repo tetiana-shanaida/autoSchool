@@ -17,12 +17,12 @@ namespace BDD3.PageObject.Interactions
 
         public void GoToInteractionsCategory()
         {
-            CategoryByName("Interactions");
+            Click(CategoryByName("Interactions"));
         }
 
         public void GoToSelectableSection()
         {
-            SectionByName("Selectable");
+            Click(SectionByName("Selectable"));
         }
 
         public void OpenTab(string title)

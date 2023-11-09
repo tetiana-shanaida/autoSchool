@@ -11,7 +11,6 @@ namespace BDD3.PageObject.Elements
             webDriver = conteiner.Resolve<IWebDriver>();
         }
 
-        private string ButtonsSection => SectionByName("Buttons");
         private string DoubleClickMe = "//button[@id='doubleClickBtn']";
         private string RightClickMe = "//button[@id='rightClickBtn']";
         private string ClickMe = "//button[text()='Click Me']";
@@ -20,8 +19,8 @@ namespace BDD3.PageObject.Elements
 
         public Buttons GoToButtonsSection()
         {
-            ScrollToElement(ButtonsSection);
-            Click(ButtonsSection);
+            ScrollToElement(SectionByName("Buttons"));
+            Click(SectionByName("Buttons"));
 
             return this;
         }

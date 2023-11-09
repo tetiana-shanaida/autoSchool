@@ -82,10 +82,10 @@ namespace BDD3.StepDefinitions
             progressBar.StartProgressBar();
         }
 
-        [When(@"user waits until progress bar reaches ""([^""]*)""%")]
-        public void WhenUserWaitsUntilProgressBarReaches(int expectedProgressValue)
+        [When(@"user waits until progress bar reaches 100%")]
+        public void WhenUserWaitsUntilProgressBarReaches()
         {
-            progressBar.WaitUntillProgressBarDone(expectedProgressValue);
+            progressBar.WaitUntillProgressBarDone();
         }
 
         [Then(@"name of the button is changed to ""([^""]*)""")]

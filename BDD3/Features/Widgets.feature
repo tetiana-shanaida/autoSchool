@@ -1,6 +1,7 @@
 ﻿Feature: Widgets
 
 Background:
+	Given user is on the main page
 	When user goes to the Widgets category
 
 Scenario: Section Auto Complete.Check autocomplete to one letter
@@ -25,7 +26,7 @@ Scenario: Section Auto Complete. Check autocomplete after deleting search words
 Scenario: Progress Bar
 	Given user is on Progress Bar page
 	When user clicks on Start button to start progress bar
-	And user waits until progress bar reaches "100"%
+	And user waits until progress bar reaches 100%
 	Then name of the button is changed to "Reset"
 	When user clicks on Reset button
 	Then name of the button is changed to "Start"

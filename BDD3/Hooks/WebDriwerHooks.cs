@@ -13,13 +13,13 @@ namespace BDD3.Features.Hooks
             _container = container;
         }
 
-
-
         [BeforeScenario(Order = 1)]
         public void FirstBeforeScenario()
         {
-            IWebDriver webDriver = new ChromeDriver();
-            webDriver.Manage().Window.Maximize();
+            ChromeOptions options = new ChromeOptions();
+            options.AddArguments("--incognito");
+            IWebDriver webDriver = new ChromeDriver(options);
+            webDriver.Manage().Window.Maximize();         
 
             _container.RegisterInstanceAs<IWebDriver>(webDriver);
         }

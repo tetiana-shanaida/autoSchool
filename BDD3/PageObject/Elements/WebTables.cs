@@ -15,7 +15,7 @@ namespace BDD3.PageObject.Elements
 
         public WebTables GoToWebTablesSection()
         {
-            ScrollToElement("Web Tables");
+            ScrollToElement(SectionByName("Web Tables"));
             Click(SectionByName("Web Tables"));
             return this;
         }
