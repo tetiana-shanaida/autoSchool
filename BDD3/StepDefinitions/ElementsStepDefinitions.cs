@@ -25,14 +25,14 @@ namespace BDD3.StepDefinitions
         private WebTables webTables;
         private Buttons buttons;
 
-        [When(@"user open the element category")]
-        public void WhenUserOpenTheElementCategory()
+        [Given(@"user is on the element category")]
+        public void GivenUserIsOnTheElementCategory()
         {
             textBox.GoToElementSection();
         }
 
-        [When(@"user goes to text box section")]
-        public void WhenUserGoesToTextBoxSection()
+        [Given(@"user is on text box section")]
+        public void GivenUserIsOnTextBoxSection()
         {
             textBox.GoToTextBox();
         }
@@ -57,8 +57,8 @@ namespace BDD3.StepDefinitions
             Assert.AreEqual(expectedData, actualData, $"actual isn't equal to expected");
         }
 
-        [When(@"user goes to checkbox section")]
-        public void WhenUserGoesToCheckboxSection()
+        [Given(@"user is on checkbox section")]
+        public void GivenUserIsOnCheckboxSection()
         {
             checkBox.GoToCheckBoxSection();
         }
@@ -125,17 +125,15 @@ namespace BDD3.StepDefinitions
             buttons.GoToButtonsSection();
         }
 
-        [When(@"user clicks on button ""([^""]*)""")]
-        public void WhenUserClicksOnButton(string buttonName)
+        [When(@"user clicks on button (.*)")]
+        public void WhenUserClicksOnButtonDoubleClickMe(string buttonName)
         {
-            string expectedMessage = buttons.ClickOnButton(buttonName);
-            _scenarioContext["ExpectedMessage"] = expectedMessage;
+            buttons.ClickOnButton(buttonName);
         }
 
-        [Then(@"the appropriate message is displayed")]
-        public void ThenTheAppropriateMessageIsDisplayed()
+        [Then(@"the message (.*) is displayed")]
+        public void ThenTheMessageYouHaveDoneADoubleClickIsDisplayed(string expectedMessage)
         {
-            var expectedMessage = _scenarioContext["ExpectedMessage"] as string;
             var actualMessage = buttons.GetTextAfterClicking();
             Assert.AreEqual(expectedMessage, actualMessage, $"{actualMessage} isn't equal to {expectedMessage}");
         }

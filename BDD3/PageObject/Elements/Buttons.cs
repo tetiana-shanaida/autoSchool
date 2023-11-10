@@ -25,21 +25,21 @@ namespace BDD3.PageObject.Elements
             return this;
         }
 
-        public string ClickOnButton(string buttonName) {
+        public void ClickOnButton(string buttonName) {
             switch (buttonName)
             {
                 case "Double Click Me":
                     ScrollToElement(DoubleClickMe);
                     DoubleClick(DoubleClickMe);
-                    return "You have done a double click";
+                    return;
                 case "Right Click Me":
                     RightClick(RightClickMe);
-                    return "You have done a right click";
+                    return;
                 case "Click Me":
                     Click(ClickMe);
-                    return "You have done a dynamic click";
+                    return;
                 default:
-                    return "Invalid button name";
+                    return;
             }
         }
 

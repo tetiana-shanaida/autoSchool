@@ -13,8 +13,8 @@ namespace BDD3.Features.Hooks
             _container = container;
         }
 
-        [BeforeScenario(Order = 1)]
-        public void FirstBeforeScenario()
+        [BeforeScenario]
+        public void BeforeScenario()
         {
             ChromeOptions options = new ChromeOptions();
             options.AddArguments("--incognito");
