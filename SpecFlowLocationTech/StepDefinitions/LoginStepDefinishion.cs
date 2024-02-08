@@ -1,13 +1,22 @@
 ﻿using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
+using BoDi;
+using OpenQA.Selenium.Interactions;
 
 namespace SpecFlowLocationTech.StepDefinitions
 {
     public class LoginStepDefinishion
     {
         private IWebDriver driver;
-        WebDriverWait wait;
+        private WebDriverWait wait;
+        private Actions action;
+        public LoginStepDefinishion(IObjectContainer conteiner)
+        {
+            driver = conteiner.Resolve<IWebDriver>();
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            action = new Actions(driver);
+        }
 
         [Given(@"user is logged in")]
         public void GivenUserIsLoggedIn() {

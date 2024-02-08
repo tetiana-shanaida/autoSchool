@@ -23,7 +23,7 @@ namespace SpecFlowLocationTech.StepDefinitions
 
         private string org_field = "//span[@aria-labelledby=\"select2-id_org-container\"]";
         private string org_input = "//input[@aria-controls=\"select2-id_org-results\"]";
-        private string selected_org = "//li[text()='nix (NIX Software Development Services)']";
+        private string selected_org = "//li[text()='NIX Software Development Services']";
         private string building_input = "//input[@id=\"id_name\"]";
         private string save_button = "//input[@value=\"Save\"]";
 
@@ -53,8 +53,8 @@ namespace SpecFlowLocationTech.StepDefinitions
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(org_field)));
 
             driver.FindElement(By.XPath(org_field)).Click();
-            driver.FindElement(By.XPath(org_input)).SendKeys(nix);
-            Thread.Sleep(6000);
+            //driver.FindElement(By.XPath(org_input)).SendKeys(nix);
+            Thread.Sleep(1000);
             driver.FindElement(By.XPath(selected_org)).Click();
             Thread.Sleep(1000);
 
