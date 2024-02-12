@@ -106,13 +106,17 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("select organization name \"nix\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
- testRunner.And("select floor \"e7fd51a4-6a68-44f0-a528-5cf57f84b125\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("select floor \"40c98fe3-eb5b-4fa2-a59e-1bd4b3d10b42\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And("enter Leaf Location \"bath\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("enter Leaf Location", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
  testRunner.And("save the form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 12
+ testRunner.And("user create \"5\" fixed location for client \"nix\" org \"nix\" and floor \"40c98fe3-eb5" +
+                        "b-4fa2-a59e-1bd4b3d10b42\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

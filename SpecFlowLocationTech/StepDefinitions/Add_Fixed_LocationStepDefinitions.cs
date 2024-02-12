@@ -1,6 +1,7 @@
 using BoDi;
 using OpenQA.Selenium;
 using System;
+using System.Xml.Linq;
 using TechTalk.SpecFlow;
 
 namespace SpecFlowLocationTech.StepDefinitions
@@ -76,16 +77,35 @@ namespace SpecFlowLocationTech.StepDefinitions
             Thread.Sleep(1000);
         }
 
-        [When(@"enter Leaf Location ""([^""]*)""")]
-        public void WhenEnterLeafLocation(string leafLocation)
+        [When(@"enter Leaf Location")]
+        public void WhenEnterLeafLocation()
         {
-            FillInputField(InputField("leaf_tag"), leafLocation);
+            string[] words = { "Living room", "Dining room", "Kitchen", "Bedroom", "Bathroom", "Study", "Home office", "Laundry room", "Basement", "Attic", "Garage", "Pantry", "Playroom", "Guest room", "Sunroom", "Conservatory", "Library", "Game room", "Mudroom", "Foyer", "Powder room", "Gym", "Music room", "Media room", "Walk-in closet", "Hallway", "Nursery", "Family room", "Workshop", "Wine cellar", "Office", "Studio", "Solarium", "Den", "Apartment", "Vestibule", "Utility room", "Storage room", "Server room", "Patio", "Veranda", "Balcony", "Terrace", "Lounge", "Reception room", "Rec room", "Bonus room", "Flex room", "Utility closet", "Coat closet" };
+            Random rnd = new Random();
+            int randomIndex = rnd.Next(0, words.Length);
+            FillInputField(InputField("leaf_tag"), words[randomIndex]);
         }
 
         [When(@"save the form")]
         public void WhenSaveTheForm()
         {
             Click(InputField("_save"));
+        }
+
+        [When(@"user create ""([^""]*)"" fixed location for client ""([^""]*)"" org ""([^""]*)"" and floor ""([^""]*)""")]
+        public void WhenUserCreateFixedLocationForClientOrgAndFloor(int amount, string client, string org, string id)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                WhenUserGoesToThePageForCreatingFixedLocation();
+                WhenUserEntersInTheNameFieldInIdentityInformation("location");
+                WhenSelectClientName(client);
+                WhenSelectOrganizationName(org);
+                WhenSelectFloor(id);
+                WhenEnterLeafLocation();
+                WhenSaveTheForm();
+
+            }            
         }
     }
 }
